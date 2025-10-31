@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Objetivo : MonoBehaviour
+public class MoverChupito : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,10 +12,5 @@ public class Objetivo : MonoBehaviour
     void Update()
     {
         
-    }
-    public void Disparado(Disparo shooter)
-    {
-        Debug.Log(shooter.name + "destruyó una botella");
-        Destroy(gameObject);
     }
 }
