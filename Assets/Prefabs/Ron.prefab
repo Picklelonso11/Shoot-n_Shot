@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3013551647761748278}
   - component: {fileID: 7808237922592261125}
   - component: {fileID: -9069662453178943231}
-  - component: {fileID: 6396750501792920150}
   m_Layer: 0
   m_Name: Ron
   m_TagString: Botella
@@ -125,16 +124,3 @@ MonoBehaviour:
   speed: 2
   amplitude: 1
   frequency: 1
---- !u!114 &6396750501792920150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7339379260252051985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f03ade182fbf94baaa30cef644f4e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tipoBotella: raro

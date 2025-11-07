@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI scoreTextJ1;
     public TextMeshProUGUI scoreTextJ2;
 
+    private bool imPlayer1;
     private int scoreJ1 = 0;
     private int scoreJ2 = 0;
 
@@ -22,6 +23,19 @@ public class ScoreManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+    private void Update()
+    {
+        if(scoreJ1 >= 50)
+        {
+            scoreJ1 = scoreJ1 - 50;
+            imPlayer1 = true;
+        }
+        if(scoreJ2 >= 50)
+        {
+            scoreJ2 = scoreJ2 - 50;
+            imPlayer1 = false;
         }
     }
 

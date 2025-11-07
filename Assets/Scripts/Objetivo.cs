@@ -3,32 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class Objetivo : MonoBehaviour
 {
-    // Define el tipo de botella (debe configurarse en el Inspector)
-    public string tipoBotella;
-
     // Cantidad de puntos que vale esta botella (se asigna al ser destruida)
-    private int puntos = 0;
+    public int puntos = 0;
 
     public void Disparado(Disparo quienDisparo)
     {
-        // Asignamos la cantidad de puntos según el tipo de botella
-        switch (tipoBotella.ToLower())
-        {
-            case "comun":
-                puntos = 10; 
-                break;
-            case "raro":
-                puntos = 25; 
-                break;
-            case "epico":
-                puntos = 50; 
-                break;
-            case "legendario":
-                puntos = 100; 
-                break;
-            default:
-                break;
-        }
 
         if (quienDisparo != null)
         {

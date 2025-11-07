@@ -8,7 +8,6 @@ public class Spawner : MonoBehaviour
     public class RarityItem
     {
         public GameObject prefab; // Prefab del objeto a instanciar (por ejemplo, una botella)
-        public string tipo;       // Tipo de rareza: "comun", "raro", "epico", "legendario"
         public int weight;        // Peso o probabilidad (más alto = más frecuente)
     }
 
@@ -57,13 +56,7 @@ public class Spawner : MonoBehaviour
         // Instancia el prefab en la posición del spawner con rotación neutra
         GameObject obj = Instantiate(itemSeleccionado.prefab, transform.position, Quaternion.identity);
 
-        // Asigna el tipo de botella en el componente Objetivo para que sume puntos correctamente
-        Objetivo objetivo = obj.GetComponent<Objetivo>();
-        if (objetivo != null)
-        {
-            // El tipo se establece automáticamente según la rareza configurada
-            objetivo.tipoBotella = itemSeleccionado.tipo;
-        }
+
 
         // Comprueba si el objeto tiene un componente de movimiento
         MovimientoBotella mov = obj.GetComponent<MovimientoBotella>();
