@@ -5,92 +5,78 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Disparo : MonoBehaviour
 {
-    private bool imPlayer1;
-    public RectTransform mirilla; 
-    public Camera camara;           
+    [HideInInspector] public bool imPlayer1;
+    public RectTransform mirilla;
+    public Camera camara;
+    private Gamepad myGamepad;
 
     void Start()
     {
-        //Código para averiguar quien tiene asignado el script y decidir que controles del teclado usa
+        // Identificar jugador
+        imPlayer1 = gameObject.CompareTag("Player1");
 
-        if (gameObject.CompareTag("Player1"))
+        // Asignar mando según tag
+        if (Gamepad.all.Count >= 1 && imPlayer1)
         {
-            imPlayer1 = true;
-            // Es el jugador 1
+            myGamepad = Gamepad.all[0]; // Mando J1
         }
-        else if (gameObject.CompareTag("Player2"))
+        if (Gamepad.all.Count >= 2 && !imPlayer1)
         {
-            imPlayer1 = false;
-            // Es el jugador 2
-        }
-        else
-        {
-            Debug.Log("Error");
-            // Se ha asignado a un objeto distinto del de los jugadores
+            myGamepad = Gamepad.all[1]; // Mando J2
         }
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (imPlayer1)
         {
-            DisparoJ1();
+            DisparoJugador(true);
         }
         else
         {
-            DisparoJ2();
+            DisparoJugador(false);
         }
     }
-    private void DisparoJ1()
+
+    private void DisparoJugador(bool player1)
     {
-        if (Keyboard.current.leftShiftKey.wasPressedThisFrame)
+        bool disparo = false;
+
+        // Entrada mando
+        if (myGamepad != null && myGamepad.buttonSouth.wasPressedThisFrame)
         {
-            // Posicion de la mirilla en pantalla
-            Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, mirilla.position);
+            disparo = true;
+        }
 
-            // Rayo desde esa posición
-            Ray ray = camara.ScreenPointToRay(screenPos);
-
-            if (Physics.Raycast(ray, out RaycastHit hit))
+        // Entrada teclado (backup)
+        if (!disparo)
+        {
+            if (player1 && Keyboard.current.leftShiftKey.wasPressedThisFrame)
             {
-                Objetivo target = hit.collider.GetComponent<Objetivo>();
-
-                // Si el objeto es una botella
-                if (hit.collider.CompareTag("Botella"))
-                {
-                    target.Disparado(this);
-                }
-                else
-                {
-                    Debug.Log("Disparo fallido");
-                }
+                disparo = true;
+            }
+            if (!player1 && Keyboard.current.rightShiftKey.wasPressedThisFrame)
+            {
+                disparo = true;
             }
         }
-    }
-    private void DisparoJ2()
-    {
-        if (Keyboard.current.rightShiftKey.wasPressedThisFrame)
+
+        if (!disparo)
         {
-            // Posicion de la mirilla en pantalla
-            Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, mirilla.position);
-
-            // Rayo desde esa posición
-            Ray ray = camara.ScreenPointToRay(screenPos);
-
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            return;
+        }
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, mirilla.position);
+        Ray ray = camara.ScreenPointToRay(screenPos);
+        
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            if (hit.collider.CompareTag("Botella"))
             {
                 Objetivo target = hit.collider.GetComponent<Objetivo>();
-
-                // Si el objeto es una botella
-                if (hit.collider.CompareTag("Botella"))
-                {
-                    target.Disparado(this);
-                }
-                else
-                {
-                    Debug.Log("Disparo fallido");
-                }
+                target.Disparado(this);
+            }
+            else
+            {
+                Debug.Log("Disparo fallido");
             }
         }
     }

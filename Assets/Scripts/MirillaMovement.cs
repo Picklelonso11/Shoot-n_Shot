@@ -4,32 +4,34 @@ using UnityEngine.InputSystem;
 public class MirillaMovement : MonoBehaviour
 {
     private bool imPlayer1;
-    private Vector2 direccion;
+
     public float speed = 200f;
     public RectTransform img;
     public RectTransform canvas;
+
+    private Gamepad myGamepad;
+
     void Start()
     {
-        //Código para averiguar quien tiene asignado el script y decidir que controles del teclado usa
+        // Decide si este objeto es Player1 o Player2
+        imPlayer1 = gameObject.CompareTag("Player1");
 
-        if (gameObject.CompareTag("Player1"))
+        // Asigna el mando correspondiente
+        if (Gamepad.all.Count >= 1)
         {
-            imPlayer1 = true;
-            // Es el jugador 1
-        }
-        else if (gameObject.CompareTag("Player2"))
-        {
-            imPlayer1 = false;
-            // Es el jugador 2
-        }
-        else
-        {
-            Debug.Log("Error");
-            // Se ha asignado a un objeto distinto del de los jugadores
+            if (imPlayer1)
+            {
+                myGamepad = Gamepad.all[0]; // Primer mando
+            }
+            else if (Gamepad.all.Count >= 2)
+            {
+                myGamepad = Gamepad.all[1]; // Segundo mando
+            }
+
         }
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (imPlayer1)
@@ -41,95 +43,63 @@ public class MirillaMovement : MonoBehaviour
             Player2Controls();
         }
     }
+
     private void Player1Controls()
     {
-        float x = 0;
-        float y = 0;
+        // Leer del mando si existe
+        Vector2 stick = myGamepad != null ? myGamepad.leftStick.ReadValue() : Vector2.zero;
 
-        if (Keyboard.current.aKey.isPressed)
+        // Si el mando no se mueve, permitir teclado también
+        if (stick == Vector2.zero)
         {
-            //izquierda
-            x -= 1;
-        }
-        if (Keyboard.current.wKey.isPressed)
-        {
-            //arriba
-            y += 1;
-        }
-        if (Keyboard.current.sKey.isPressed)
-        {
-            //abajo
-            y -= 1;
-        }
-        if (Keyboard.current.dKey.isPressed)
-        {
-            //derecha
-            x += 1;
+            float x = 0;
+            float y = 0;
+
+            if (Keyboard.current.aKey.isPressed) x -= 1;
+            if (Keyboard.current.dKey.isPressed) x += 1;
+            if (Keyboard.current.wKey.isPressed) y += 1;
+            if (Keyboard.current.sKey.isPressed) y -= 1;
+
+            stick = new Vector2(x, y).normalized;
         }
 
-        direccion = new Vector2(x, y).normalized;
-        img.anchoredPosition += direccion * speed * Time.deltaTime;
+        img.anchoredPosition += stick * speed * Time.deltaTime;
         LimitarCanvas();
     }
 
     private void Player2Controls()
     {
-        float x = 0;
-        float y = 0;
+        Vector2 stick = myGamepad != null ? myGamepad.leftStick.ReadValue() : Vector2.zero;
+        if (stick == Vector2.zero)
+        {
+            float x = 0;
+            float y = 0;
 
-        if (Keyboard.current.rightArrowKey.isPressed)
-        {
-            //derecha
-            x += 1;
-        }
-        if (Keyboard.current.leftArrowKey.isPressed)
-        {
-            //izquierda
-            x -= 1;
-        }
-        if (Keyboard.current.upArrowKey.isPressed)
-        {
-            //arriba
-            y += 1;
-        }
-        if (Keyboard.current.downArrowKey.isPressed)
-        {
-            //abajo
-            y -= 1;
-        }
+            if (Keyboard.current.leftArrowKey.isPressed) x -= 1;
+            if (Keyboard.current.rightArrowKey.isPressed) x += 1;
+            if (Keyboard.current.upArrowKey.isPressed) y += 1;
+            if (Keyboard.current.downArrowKey.isPressed) y -= 1;
 
-        direccion = new Vector2(x, y).normalized;
-        img.anchoredPosition += direccion * speed * Time.deltaTime;
+            stick = new Vector2(x, y).normalized;
+        }
+        img.anchoredPosition += stick * speed * Time.deltaTime;
         LimitarCanvas();
     }
     private void LimitarCanvas()
     {
-        // Obtener la posición actual
-        Vector2 pos = img.anchoredPosition;
 
-        // Tamaño del canvas dividido entre 2 (para bordes)
+        Vector2 pos = img.anchoredPosition;
+        
+
         float halfW = canvas.rect.width / 2f;
         float halfH = canvas.rect.height / 2f;
+       
 
-        // Mitad del tamaño de la imagen
         float halfImgW = img.rect.width / 2f;
         float halfImgH = img.rect.height / 2f;
 
-        // Limitar X dentro del canvas
-        pos.x = Mathf.Clamp(
-            pos.x,
-            -halfW + halfImgW, // borde izquierdo
-            halfW - halfImgW   // borde derecho
-        );
-
-        // Limitar Y dentro del canvas
-        pos.y = Mathf.Clamp(
-            pos.y,
-            -halfH + halfImgH, // borde inferior
-            halfH - halfImgH   // borde superior
-        );
-
-        // Aplicar posición corregida
+        pos.x = Mathf.Clamp(pos.x, -halfW + halfImgW, halfW - halfImgW);
+        pos.y = Mathf.Clamp(pos.y, -halfH + halfImgH, halfH - halfImgH);
         img.anchoredPosition = pos;
     }
 }
