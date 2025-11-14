@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7835744647450126372}
   - component: {fileID: 5746396886715864773}
   - component: {fileID: -7361968432966940102}
+  - component: {fileID: -8427797421413339653}
   m_Layer: 0
   m_Name: Vodka
   m_TagString: Botella
@@ -126,3 +127,16 @@ MonoBehaviour:
   speed: 2
   amplitude: 2
   frequency: 2
+--- !u!114 &-8427797421413339653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4513704438464951608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f03ade182fbf94baaa30cef644f4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puntos: 75
