@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8687772871379002118}
   - component: {fileID: 1401775675235262966}
   - component: {fileID: 2047623127768764070}
+  - component: {fileID: -1170467023146970173}
   m_Layer: 0
   m_Name: Whisky
   m_TagString: Botella
@@ -124,3 +125,16 @@ MonoBehaviour:
   speed: 3
   amplitude: 1
   frequency: 2
+--- !u!114 &-1170467023146970173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239731957148051914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f03ade182fbf94baaa30cef644f4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puntos: 50

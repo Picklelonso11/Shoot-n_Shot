@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DG.Tweening;
 using static UnityEngine.GraphicsBuffer;
 
 public class Disparo : MonoBehaviour
 {
     [HideInInspector] public bool imPlayer1;
-    public RectTransform mirilla;
+    public RawImage mirilla;
     public Camera camara;
     private Gamepad myGamepad;
 
@@ -36,7 +37,23 @@ public class Disparo : MonoBehaviour
             DisparoJugador(false);
         }
     }
+    private void AspectoMirilla()
+    {
+        RectTransform rt = mirilla.rectTransform;   // Si mirilla es RawImage
+        RawImage img = mirilla;                     // acceso al color
 
+        Vector3 originalScale = rt.localScale;
+
+        Sequence seq = DOTween.Sequence();
+
+        // Primera mitad: más pequeña + más oscura
+        seq.Append(rt.DOScale(1.5f, 0.05f).SetEase(Ease.OutQuad));
+        seq.Join(img.DOColor(new Color(0.35f, 0.35f, 0.35f, 1f), 0.05f));
+
+        // Segunda mitad: vuelve a la escala y al color original
+        seq.Append(rt.DOScale(originalScale, 0.05f).SetEase(Ease.InQuad));
+        seq.Join(img.DOColor(Color.white, 0.05f));
+    }
     private void DisparoJugador(bool player1)
     {
         bool disparo = false;
@@ -45,6 +62,7 @@ public class Disparo : MonoBehaviour
         if (myGamepad != null && myGamepad.buttonSouth.wasPressedThisFrame)
         {
             disparo = true;
+            AspectoMirilla();
         }
 
         // Entrada teclado (backup)
@@ -53,10 +71,12 @@ public class Disparo : MonoBehaviour
             if (player1 && Keyboard.current.leftShiftKey.wasPressedThisFrame)
             {
                 disparo = true;
+                AspectoMirilla();
             }
             if (!player1 && Keyboard.current.rightShiftKey.wasPressedThisFrame)
             {
                 disparo = true;
+                AspectoMirilla();
             }
         }
 
@@ -64,7 +84,7 @@ public class Disparo : MonoBehaviour
         {
             return;
         }
-        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, mirilla.position);
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, mirilla.rectTransform.position);
         Ray ray = camara.ScreenPointToRay(screenPos);
         
         if (Physics.Raycast(ray, out RaycastHit hit))
