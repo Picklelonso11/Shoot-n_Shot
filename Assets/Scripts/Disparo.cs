@@ -2,17 +2,25 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 
 public class Disparo : MonoBehaviour
 {
     [HideInInspector] public bool imPlayer1;
     public RawImage mirilla;
+    public RawImage chispas;
     public Camera camara;
+    public GameObject [] balazosPrefabs;
+
     private Gamepad myGamepad;
 
+    public AudioSource sonidoAcierto;   // Sonido de botella rota
+    public AudioSource sonidoFallo;     // Sonido de fallo
     void Start()
     {
+        // Ocultar las chispas del disparo
+        chispas.enabled = false;
         // Identificar jugador
         imPlayer1 = gameObject.CompareTag("Player1");
 
@@ -39,8 +47,8 @@ public class Disparo : MonoBehaviour
     }
     private void AspectoMirilla()
     {
-        RectTransform rt = mirilla.rectTransform;   // Si mirilla es RawImage
-        RawImage img = mirilla;                     // acceso al color
+        RectTransform rt = mirilla.rectTransform;   
+        RawImage img = mirilla;                     
 
         Vector3 originalScale = rt.localScale;
 
@@ -62,20 +70,23 @@ public class Disparo : MonoBehaviour
         if (myGamepad != null && myGamepad.buttonSouth.wasPressedThisFrame)
         {
             disparo = true;
+            StartCoroutine(Flash());
             AspectoMirilla();
         }
 
-        // Entrada teclado (backup)
+        // Entrada teclado 
         if (!disparo)
         {
             if (player1 && Keyboard.current.leftShiftKey.wasPressedThisFrame)
             {
                 disparo = true;
+                StartCoroutine(Flash());
                 AspectoMirilla();
             }
             if (!player1 && Keyboard.current.rightShiftKey.wasPressedThisFrame)
             {
                 disparo = true;
+                StartCoroutine(Flash());
                 AspectoMirilla();
             }
         }
@@ -93,11 +104,44 @@ public class Disparo : MonoBehaviour
             {
                 Objetivo target = hit.collider.GetComponent<Objetivo>();
                 target.Disparado(this);
+                sonidoAcierto.pitch = Random.Range(0.8f, 1.6f);
+                sonidoAcierto.Play();
             }
-            else
+            else 
             {
                 Debug.Log("Disparo fallido");
+                sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
+                sonidoFallo.Play();
+                if (hit.collider.CompareTag("Mueble"))
+                {
+                    int randomIndex = Random.Range(0, balazosPrefabs.Length);
+
+                    // Selecciona el prefab correspondiente
+                    GameObject prefabSeleccionado = balazosPrefabs[randomIndex];
+
+                    // Instancia la marca en el punto del impacto, ligeramente separada de la superficie
+                    GameObject marca = Instantiate(
+                        prefabSeleccionado, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
+
+                    // Muchos decals/planes vienen orientados "tumbados". Con este giro lo colocas normal.
+                    marca.transform.Rotate(0f, -180f, 0f);
+                    Debug.Log("MUEBLE");
+                }
             }
         }
+        else
+        {
+            Debug.Log("Disparo fallido");
+            sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
+            sonidoFallo.Play();
+        }
+
+    }
+    private IEnumerator Flash()
+    {
+        chispas.rectTransform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+        chispas.enabled = true;      // aparece
+        yield return new WaitForSeconds(0.05f);
+        chispas.enabled = false;     // desaparece
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Botella
   - Derecha
   - Izquierda
+  - Mueble
   layers:
   - Default
   - TransparentFX
