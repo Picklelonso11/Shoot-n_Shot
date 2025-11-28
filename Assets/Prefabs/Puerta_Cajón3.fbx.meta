@@ -3,7 +3,22 @@ guid: 2227d490fc2161f4cb50d6f6b7794360
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Contrachapado
+    second: {fileID: 2100000, guid: dfbbd203aa35a7d40a12f3da214be7cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Madera Clara
+    second: {fileID: 2100000, guid: cc759351b6fbb3b40a6a8e35fac465ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Madera Oscura
+    second: {fileID: 2100000, guid: 5bb22ce86ff49de4b95b6915f918d21a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
