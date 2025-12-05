@@ -10,6 +10,8 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI scoreTextJ1;
     public TextMeshProUGUI scoreTextJ2;
 
+    private int score1 = 0;
+    private int score2 = 0;
 
     private int scoreJ1 = 0;
     private int scoreJ2 = 0;
@@ -31,13 +33,11 @@ public class ScoreManager : MonoBehaviour
         if(scoreJ1 >= 50)
         {
             scoreJ1 = scoreJ1 - 50;
-            scoreTextJ1.text = "J1: " + scoreJ1;
             mover.MoverSiguiente(MoverChupito.TipoObjeto.TipoJ1);
         }
         if(scoreJ2 >= 50)
         {
             scoreJ2 = scoreJ2 - 50;
-            scoreTextJ2.text = "J2: " + scoreJ2;
             mover.MoverSiguiente(MoverChupito.TipoObjeto.TipoJ2);
         }
     }
@@ -49,13 +49,15 @@ public class ScoreManager : MonoBehaviour
         if (player1)
         {
             scoreJ1 += puntos;
-            scoreTextJ1.text = "J1: " + scoreJ1;
+            score1 += puntos;
+            scoreTextJ1.text = "J1: " + score1;
         }
         // Si el disparo fue del jugador 2
         else
         {
             scoreJ2 += puntos;
-            scoreTextJ2.text = "J2: " + scoreJ2;
+            score2 += puntos;
+            scoreTextJ2.text = "J2: " + score2;
         }
     }
 }

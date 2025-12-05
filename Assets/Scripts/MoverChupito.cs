@@ -25,6 +25,9 @@ public class MoverChupito : MonoBehaviour
 
     public float velocidad = 3f;
 
+    public AudioSource slideChupito;
+    public AudioSource chupitoConseguido;
+
     private Coroutine movimientoActual;
 
     // Inicia el movimiento de un tipo específico
@@ -61,5 +64,17 @@ public class MoverChupito : MonoBehaviour
         item.completado = true;
 
         movimientoActual = null;
+
+        // Reproducir el primer sonido
+        slideChupito.Play();
+
+        // Esperar a que termine el primero
+        while (slideChupito.isPlaying)
+        {
+            yield return null;
+        }
+
+        // Reproducir el segundo sonido
+        chupitoConseguido.Play();
     }
 }

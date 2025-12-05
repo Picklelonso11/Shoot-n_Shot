@@ -88,6 +88,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabFracturado: {fileID: 9214212505468051331, guid: d27baafb3ce5e1e4eb84dc9ad5cdf255, type: 3}
+  textoPuntuacionBotella: {fileID: 0}
+  canvasUI: {fileID: 0}
   puntos: 25
 --- !u!114 &-191615007430684522
 MonoBehaviour:
@@ -101,9 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43beeb50f95fd634fa6475203b950ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  amplitude: 0.5
-  frequency: 0.5
+  speed: 1.2
+  amplitude: 0
+  frequency: 0
 --- !u!64 &-8832163989989727478
 MeshCollider:
   m_ObjectHideFlags: 0

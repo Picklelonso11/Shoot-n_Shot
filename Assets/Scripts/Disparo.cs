@@ -77,13 +77,13 @@ public class Disparo : MonoBehaviour
         // Entrada teclado 
         if (!disparo)
         {
-            if (player1 && Keyboard.current.leftShiftKey.wasPressedThisFrame)
+            if (player1 && Keyboard.current.leftCtrlKey.wasPressedThisFrame)
             {
                 disparo = true;
                 StartCoroutine(Flash());
                 AspectoMirilla();
             }
-            if (!player1 && Keyboard.current.rightShiftKey.wasPressedThisFrame)
+            if (!player1 && Keyboard.current.rightCtrlKey.wasPressedThisFrame)
             {
                 disparo = true;
                 StartCoroutine(Flash());
