@@ -10,6 +10,8 @@ TagManager:
   - Derecha
   - Izquierda
   - Mueble
+  - Rejilla
+  - Puerta
   layers:
   - Default
   - TransparentFX

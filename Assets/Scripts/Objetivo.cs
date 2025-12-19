@@ -12,6 +12,8 @@ public class Objetivo : MonoBehaviour
     // Cantidad de puntos que vale esta botella (se asigna al ser destruida)
     public int puntos = 0;
 
+    [HideInInspector] public SpawnPuerta spawnPuerta;
+
     private void Start()
     {
         GameObject.FindAnyObjectByType<Objetivo>();
@@ -21,9 +23,8 @@ public class Objetivo : MonoBehaviour
 
         if (quienDisparo != null)
         {
-            // Accedemos al ScoreManager y sumamos los puntos al jugador correspondiente
-            // "quienDisparo.imPlayer1" = Jugador 1 (true) o Jugador 2 (false)
-            ScoreManager.Instance.AddScore(quienDisparo.imPlayer1, puntos);
+            // Sumamos los puntos al jugador correspondiente
+              ScoreManager.Instance.AddScore(quienDisparo.imPlayer1, puntos);
         }
         // Instanciar la botella fracturada
         GameObject fracturado = Instantiate(prefabFracturado, transform.position, transform.rotation);
@@ -46,8 +47,13 @@ public class Objetivo : MonoBehaviour
 
         // Destruir los trozos después de un tiempo
         Destroy(fracturado, 5f);
-        // Texto de puntuación en la pantalla
-       // MostrarTextoPuntuacion();
     }
-
+    private void OnDestroy()
+    {
+        // Seguridad extra por si se destruye por otro motivo
+        if (spawnPuerta != null)
+        {
+            spawnPuerta.CerrarPuerta();
+        }
+    }
 }

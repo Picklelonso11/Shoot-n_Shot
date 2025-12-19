@@ -30,31 +30,22 @@ public class CanvasPosition : MonoBehaviour
         {
             case 10:
                 tmp.color = Color.green;
-                tmp.fontSize = 65;
+                tmp.fontSize = 150;
                 break;
 
             case 25:
                 tmp.color = new Color(0.2f, 0.8f, 1f);
-                tmp.fontSize = 75;
+                tmp.fontSize = 150;
                 break;
 
             case 50:
-                tmp.color = new Color(1f, 0.6f, 0.2f);
-                tmp.fontSize = 85;
+                tmp.color = Color.magenta;
+                tmp.fontSize = 150;
                 break;
 
             case 75:
-                tmp.fontSize = 115;
-
-                tmp.enableVertexGradient = true;
-
-                tmp.colorGradient = new VertexGradient
-                (
-                    new Color(1f, 0.9f, 0.3f), // top left (oro claro)
-                    new Color(1f, 0.8f, 0.2f), // top right (oro medio)
-                    new Color(0.9f, 0.7f, 0.1f), // bottom left (oro profundo)
-                    new Color(1f, 1f, 0.5f)  // bottom right (reflejo luminoso)
-                );
+                tmp.fontSize = 170;
+                tmp.color = new Color(1f, 0.6f, 0.2f);
                 break;
         }
 
@@ -68,7 +59,7 @@ public class CanvasPosition : MonoBehaviour
     {
         Vector3 inicio = Vector3.one * 0.1f;
         Vector3 fin = Vector3.one;
-        float duracion = 0.5f;
+        float duracion = 0.2f;
         float t = 0;
 
         while (t < 1f)

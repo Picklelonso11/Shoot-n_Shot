@@ -4,20 +4,36 @@ using TMPro;
 public class Contador : MonoBehaviour
 {
     public TextMeshProUGUI countdownText;
+    [SerializeField]
+    RondaManager rondaManager;
+    [SerializeField]
+    ScoreManager scoreManager;
 
-    // Tiempo total
-    private float currentTime = 22f;
-
+    public float currentTime = 20f;
+    float tiempo;
+    private void Awake()
+    {
+        tiempo = currentTime;
+    }
     void Update()
     {
-        // Restar tiempo cada frame
-        currentTime -= Time.deltaTime;
+        if (rondaManager.RondaEnCurso())
+        {
+            // Restar tiempo cada frame
+            tiempo -= Time.deltaTime;
 
-        // Evitar que baje de 0
-        if (currentTime < 0f)
-            currentTime = 0f;
-
-        // Mostrar el valor redondeado en el texto
-        countdownText.text = Mathf.CeilToInt(currentTime).ToString();
+            // Mostrar el número redondeado
+            countdownText.text = Mathf.CeilToInt(tiempo).ToString();
+            if (tiempo < 0f)
+            {
+                // Evitar que baje de 0
+                tiempo = 0f;
+                rondaManager.FinalizarRonda(scoreManager.score1, scoreManager.score2);
+            }
+        }
+        else
+        {
+            tiempo = currentTime;
+        }
     }
 }

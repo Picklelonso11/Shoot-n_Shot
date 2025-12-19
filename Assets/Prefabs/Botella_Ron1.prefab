@@ -69,6 +69,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
       insertIndex: -1
       addedObject: {fileID: -8832163989989727478}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1943906593702546058}
   m_SourcePrefab: {fileID: 100100000, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
 --- !u!1 &8457751899913745085 stripped
 GameObject:
@@ -88,9 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabFracturado: {fileID: 9214212505468051331, guid: d27baafb3ce5e1e4eb84dc9ad5cdf255, type: 3}
-  textoPuntuacionBotella: {fileID: 0}
-  canvasUI: {fileID: 0}
   puntos: 25
+  spawnPuerta: {fileID: 0}
 --- !u!114 &-191615007430684522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43beeb50f95fd634fa6475203b950ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.2
+  speed: 0.75
   amplitude: 0
   frequency: 0
 --- !u!64 &-8832163989989727478
@@ -128,3 +130,30 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7419888773915540597, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
+--- !u!54 &1943906593702546058
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457751899913745085}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
