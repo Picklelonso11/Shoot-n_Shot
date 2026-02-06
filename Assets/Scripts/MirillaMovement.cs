@@ -6,8 +6,8 @@ public class MirillaMovement : MonoBehaviour
     private bool imPlayer1;
 
     [Header("Velocidad")]
-    public float velocidadMax = 2000f;   // Velocidad máxima que puede alcanzar la mirilla
-    public float suavizado = 1f;     // Tiempo de aceleración y frenado (más alto = más suave)
+    public float velocidadMax = 1100f;   // Velocidad máxima que puede alcanzar la mirilla
+    public float suavizado = 0.1f;     // Tiempo de aceleración y frenado (más alto = más suave)
 
     public RectTransform img;
     public RectTransform canvas;
@@ -29,9 +29,13 @@ public class MirillaMovement : MonoBehaviour
         if (Gamepad.all.Count >= 1)
         {
             if (imPlayer1)
+            {
                 myGamepad = Gamepad.all[0];   // Primer mando
+            }
             else if (Gamepad.all.Count >= 2)
+            {
                 myGamepad = Gamepad.all[1];   // Segundo mando
+            }
         }
     }
 
@@ -44,12 +48,7 @@ public class MirillaMovement : MonoBehaviour
         Vector2 velocidadObjetivo = input * velocidadMax;
 
         // Suavizar aceleración y desaceleración
-        velocidadActual = Vector2.SmoothDamp(
-            velocidadActual,       // velocidad actual
-            velocidadObjetivo,     // velocidad deseada
-            ref velocidadRef,      // referencia interna
-            suavizado              // tiempo de suavizado
-        );
+        velocidadActual = Vector2.SmoothDamp(velocidadActual, velocidadObjetivo, ref velocidadRef, suavizado);
 
         // Aplicar movimiento usando la velocidad suavizada
         img.anchoredPosition += velocidadActual * Time.deltaTime;
@@ -105,6 +104,11 @@ public class MirillaMovement : MonoBehaviour
         pos.y = Mathf.Clamp(pos.y, -halfH + halfImgH, halfH - halfImgH);
 
         img.anchoredPosition = pos;
+    }
+
+    void Borrachera(int chupitosBebidos)
+    {
+
     }
 }
 

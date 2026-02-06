@@ -12,7 +12,9 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI scoreTextJ1;
     public TextMeshProUGUI scoreTextJ2;
 
+    [HideInInspector]
     public int score1 = 0;
+    [HideInInspector]
     public int score2 = 0;
 
     private int scoreJ1 = 0;

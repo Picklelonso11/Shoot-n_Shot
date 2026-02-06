@@ -71,10 +71,13 @@ public class Disparo : MonoBehaviour
         bool disparo = false;
 
         // Entrada mando
-        if (myGamepad != null && myGamepad.buttonSouth.wasPressedThisFrame)
+        if (myGamepad != null)
         {
-            disparo = true;
-            AspectoMirilla();
+            if (myGamepad.rightShoulder.wasPressedThisFrame || myGamepad.leftShoulder.wasPressedThisFrame)
+            {
+                disparo = true;
+                AspectoMirilla();
+            }
         }
 
         // Entrada teclado 
@@ -176,5 +179,6 @@ public class Disparo : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         chispas.enabled = false;     // desaparece
     }
-    
+
+
 }

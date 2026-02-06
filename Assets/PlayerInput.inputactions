@@ -1,6 +1,63 @@
 {
-    "version": 0,
+    "version": 1,
     "name": "PlayerInput",
-    "maps": [],
-    "controlSchemes": []
+    "maps": [
+        {
+            "name": "Game",
+            "id": "01b837d2-0f63-4439-8eee-1cc86b2babe6",
+            "actions": [
+                {
+                    "name": "Shot",
+                    "type": "Button",
+                    "id": "34737b1a-8ac4-4d27-9a26-eb82ef650fea",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9665a7ec-4930-4fb8-86f0-cad5cd01fc29",
+                    "path": "<DualShockGamepad>/rightShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";PS4",
+                    "action": "Shot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "121747e0-2e1c-4e89-a6c4-6ae11a464643",
+                    "path": "<DualShockGamepad>/leftShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";PS4",
+                    "action": "Shot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec0ca1d4-f32c-45cd-8fc1-1c2337c79bfd",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";PS4",
+                    "action": "Shot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PS4",
+            "bindingGroup": "PS4",
+            "devices": []
+        }
+    ]
 }

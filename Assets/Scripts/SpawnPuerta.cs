@@ -8,6 +8,8 @@ public class SpawnPuerta : MonoBehaviour
     // Indica si pertenece al lado izquierdo
     public bool esIzquierda;
 
+    public AudioSource sonidoPuerta;
+
     private Quaternion rotacionInicial; // Rotación original de la puerta
 
     void Awake()
@@ -36,6 +38,8 @@ public class SpawnPuerta : MonoBehaviour
     public void CerrarPuerta()
     {
         if (puerta == null) return;
+
+        sonidoPuerta.Play();
 
         // Vuelve exactamente a la rotación original
         puerta.rotation = rotacionInicial;

@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using System.ComponentModel;
 using System;
+using UnityEngine.SceneManagement;
 
 public class RondaManager : MonoBehaviour
 {
@@ -162,5 +163,18 @@ public class RondaManager : MonoBehaviour
     public bool RondaEnCurso()
     {
         return rondaActiva;
+    }
+
+    // Método para reiniciar la escena actual
+    public void ReiniciarEscena()
+    {
+        // Obtiene el nombre de la escena activa y la recarga
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // Método para salir de la escena actual
+    public void SalirJuego()
+    {
+        Application.Quit(); // Cierra la aplicación en builds
     }
 }

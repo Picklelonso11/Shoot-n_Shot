@@ -20,6 +20,11 @@ public class MoverChupito : MonoBehaviour
         [HideInInspector] public Vector3 posicionInicial;
     }
 
+    [HideInInspector]
+    public int numeroChupitosJ1 = 0;
+    [HideInInspector]
+    public int numeroChupitosJ2 = 0;
+
     // Dos listas, una por cada tipo de objetos
     public Item[] tipoJ1;
     public Item[] tipoJ2;
@@ -45,6 +50,15 @@ public class MoverChupito : MonoBehaviour
         }
 
         Item[] lista = tipo == TipoObjeto.TipoJ1 ? tipoJ1 : tipoJ2;
+
+        if (tipo == TipoObjeto.TipoJ1 && numeroChupitosJ1 < 5)
+        {
+            numeroChupitosJ1 += 1;
+        }
+        else if (tipo == TipoObjeto.TipoJ2 && numeroChupitosJ2 < 5)
+        {
+            numeroChupitosJ2 += 1;
+        }
 
         // Busca el primer objeto que aún no se haya movido
         foreach (Item item in lista)
@@ -88,7 +102,9 @@ public class MoverChupito : MonoBehaviour
         foreach (Item item in lista)
         {
             if (item.objeto != null)
+            {
                 item.posicionInicial = item.objeto.position;
+            }
         }
     }
     public void ResetearChupitos()

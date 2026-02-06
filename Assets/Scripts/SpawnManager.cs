@@ -65,10 +65,12 @@ public class SpawnManager : MonoBehaviour
         if (esRejilla)
         {
             sonidoRejilla.Play();
+            Destroy(botellaActual, 1.2f);
         }
         if (esPuerta)
         {
             sonidoPuerta.Play();
+            Destroy(botellaActual, 1.2f);
         }
 
         SpawnPuerta spawnPuerta = sp.GetComponent<SpawnPuerta>();
