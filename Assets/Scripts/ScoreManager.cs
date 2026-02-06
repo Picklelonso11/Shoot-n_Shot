@@ -34,12 +34,12 @@ public class ScoreManager : MonoBehaviour
     {
         if(scoreJ1 >= 150)
         {
-            scoreJ1 = scoreJ1 - 50;
+            scoreJ1 = scoreJ1 - 150;
             mover.MoverSiguiente(MoverChupito.TipoObjeto.TipoJ1);
         }
         if(scoreJ2 >= 150)
         {
-            scoreJ2 = scoreJ2 - 50;
+            scoreJ2 = scoreJ2 - 150;
             mover.MoverSiguiente(MoverChupito.TipoObjeto.TipoJ2);
         }
         if (!rondaManager.RondaEnCurso())

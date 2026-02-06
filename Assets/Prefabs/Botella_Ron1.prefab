@@ -68,10 +68,10 @@ PrefabInstance:
       addedObject: {fileID: -191615007430684522}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -8832163989989727478}
+      addedObject: {fileID: 1943906593702546058}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1943906593702546058}
+      addedObject: {fileID: 8923626241494679859}
   m_SourcePrefab: {fileID: 100100000, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
 --- !u!1 &8457751899913745085 stripped
 GameObject:
@@ -108,28 +108,6 @@ MonoBehaviour:
   speed: 0.75
   amplitude: 0
   frequency: 0
---- !u!64 &-8832163989989727478
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8457751899913745085}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7419888773915540597, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
 --- !u!54 &1943906593702546058
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -157,3 +135,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &8923626241494679859
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457751899913745085}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0018, y: 0.0023, z: 0.0018}
+  m_Center: {x: 0, y: 0.00005, z: 1.4551915e-11}

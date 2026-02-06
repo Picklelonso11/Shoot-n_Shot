@@ -17,6 +17,7 @@ public class MoverChupito : MonoBehaviour
         public Transform objeto;
         public Transform destino;
         [HideInInspector] public bool completado = false;
+        [HideInInspector] public Vector3 posicionInicial;
     }
 
     // Dos listas, una por cada tipo de objetos
@@ -30,6 +31,11 @@ public class MoverChupito : MonoBehaviour
 
     private Coroutine movimientoActual;
 
+    private void Start()
+    {
+        GuardarPosiciones(tipoJ1);
+        GuardarPosiciones(tipoJ2);
+    }
     // Inicia el movimiento de un tipo específico
     public void MoverSiguiente(TipoObjeto tipo)
     {
@@ -76,5 +82,29 @@ public class MoverChupito : MonoBehaviour
 
         // Reproducir el segundo sonido
         chupitoConseguido.Play();
+    }
+    void GuardarPosiciones(Item[] lista)
+    {
+        foreach (Item item in lista)
+        {
+            if (item.objeto != null)
+                item.posicionInicial = item.objeto.position;
+        }
+    }
+    public void ResetearChupitos()
+    {
+        ResetearLista(tipoJ1);
+        ResetearLista(tipoJ2);
+    }
+    void ResetearLista(Item[] lista)
+    {
+        foreach (Item item in lista)
+        {
+            if (item.objeto != null)
+            {
+                item.objeto.position = item.posicionInicial;
+                item.completado = false;
+            }
+        }
     }
 }

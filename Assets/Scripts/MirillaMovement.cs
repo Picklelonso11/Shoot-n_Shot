@@ -5,11 +5,20 @@ public class MirillaMovement : MonoBehaviour
 {
     private bool imPlayer1;
 
-    public float speed = 200f;
+    [Header("Velocidad")]
+    public float velocidadMax = 2000f;   // Velocidad máxima que puede alcanzar la mirilla
+    public float suavizado = 1f;     // Tiempo de aceleración y frenado (más alto = más suave)
+
     public RectTransform img;
     public RectTransform canvas;
 
     private Gamepad myGamepad;
+
+    // Velocidad real de la mirilla en este momento
+    private Vector2 velocidadActual;
+
+    // Variable interna necesaria para SmoothDamp
+    private Vector2 velocidadRef;
 
     void Start()
     {
@@ -20,86 +29,81 @@ public class MirillaMovement : MonoBehaviour
         if (Gamepad.all.Count >= 1)
         {
             if (imPlayer1)
-            {
-                myGamepad = Gamepad.all[0]; // Primer mando
-            }
+                myGamepad = Gamepad.all[0];   // Primer mando
             else if (Gamepad.all.Count >= 2)
-            {
-                myGamepad = Gamepad.all[1]; // Segundo mando
-            }
-
+                myGamepad = Gamepad.all[1];   // Segundo mando
         }
     }
-
 
     void Update()
     {
-        if (imPlayer1)
-        {
-            Player1Controls();
-        }
-        else
-        {
-            Player2Controls();
-        }
+        // Obtener dirección de entrada (mando o teclado)
+        Vector2 input = ObtenerInput();
+
+        // Convertir dirección en velocidad objetivo
+        Vector2 velocidadObjetivo = input * velocidadMax;
+
+        // Suavizar aceleración y desaceleración
+        velocidadActual = Vector2.SmoothDamp(
+            velocidadActual,       // velocidad actual
+            velocidadObjetivo,     // velocidad deseada
+            ref velocidadRef,      // referencia interna
+            suavizado              // tiempo de suavizado
+        );
+
+        // Aplicar movimiento usando la velocidad suavizada
+        img.anchoredPosition += velocidadActual * Time.deltaTime;
+
+        // Evitar que salga del canvas
+        LimitarCanvas();
     }
 
-    private void Player1Controls()
+    // Obtiene el input combinando mando y teclado
+    private Vector2 ObtenerInput()
     {
-        // Leer del mando si existe
+        // Leer stick del mando si existe
         Vector2 stick = myGamepad != null ? myGamepad.leftStick.ReadValue() : Vector2.zero;
 
-        // Si el mando no se mueve, permitir teclado también
+        // Si el stick está quieto, permitir teclado
         if (stick == Vector2.zero)
         {
             float x = 0;
             float y = 0;
 
-            if (Keyboard.current.aKey.isPressed) x -= 1;
-            if (Keyboard.current.dKey.isPressed) x += 1;
-            if (Keyboard.current.wKey.isPressed) y += 1;
-            if (Keyboard.current.sKey.isPressed) y -= 1;
+            if (imPlayer1)
+            {
+                if (Keyboard.current.aKey.isPressed) x -= 1;
+                if (Keyboard.current.dKey.isPressed) x += 1;
+                if (Keyboard.current.wKey.isPressed) y += 1;
+                if (Keyboard.current.sKey.isPressed) y -= 1;
+            }
+            else
+            {
+                if (Keyboard.current.leftArrowKey.isPressed) x -= 1;
+                if (Keyboard.current.rightArrowKey.isPressed) x += 1;
+                if (Keyboard.current.upArrowKey.isPressed) y += 1;
+                if (Keyboard.current.downArrowKey.isPressed) y -= 1;
+            }
 
             stick = new Vector2(x, y).normalized;
         }
 
-        img.anchoredPosition += stick * speed * Time.deltaTime;
-        LimitarCanvas();
+        return stick;
     }
 
-    private void Player2Controls()
-    {
-        Vector2 stick = myGamepad != null ? myGamepad.leftStick.ReadValue() : Vector2.zero;
-        if (stick == Vector2.zero)
-        {
-            float x = 0;
-            float y = 0;
-
-            if (Keyboard.current.leftArrowKey.isPressed) x -= 1;
-            if (Keyboard.current.rightArrowKey.isPressed) x += 1;
-            if (Keyboard.current.upArrowKey.isPressed) y += 1;
-            if (Keyboard.current.downArrowKey.isPressed) y -= 1;
-
-            stick = new Vector2(x, y).normalized;
-        }
-        img.anchoredPosition += stick * speed * Time.deltaTime;
-        LimitarCanvas();
-    }
     private void LimitarCanvas()
     {
-
         Vector2 pos = img.anchoredPosition;
-        
 
         float halfW = canvas.rect.width / 2f;
         float halfH = canvas.rect.height / 2f;
-       
 
         float halfImgW = img.rect.width / 2f;
         float halfImgH = img.rect.height / 2f;
 
         pos.x = Mathf.Clamp(pos.x, -halfW + halfImgW, halfW - halfImgW);
         pos.y = Mathf.Clamp(pos.y, -halfH + halfImgH, halfH - halfImgH);
+
         img.anchoredPosition = pos;
     }
 }

@@ -68,10 +68,10 @@ PrefabInstance:
       addedObject: {fileID: 6786537364610148481}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ccf13131d8cd88499dde194586a37ac, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 726164649011552371}
+      addedObject: {fileID: -3559806052763856251}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ccf13131d8cd88499dde194586a37ac, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -3559806052763856251}
+      addedObject: {fileID: 307588932343660175}
   m_SourcePrefab: {fileID: 100100000, guid: 5ccf13131d8cd88499dde194586a37ac, type: 3}
 --- !u!1 &4227660793180007134 stripped
 GameObject:
@@ -108,28 +108,6 @@ MonoBehaviour:
   speed: 0.95
   amplitude: 0
   frequency: 0
---- !u!64 &726164649011552371
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4227660793180007134}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1243219587547791695, guid: 5ccf13131d8cd88499dde194586a37ac, type: 3}
 --- !u!54 &-3559806052763856251
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -157,3 +135,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &307588932343660175
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4227660793180007134}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0018, y: 0.0025, z: 0.0018}
+  m_Center: {x: 0.000000013940735, y: 0.0004, z: 0.00000001641456}

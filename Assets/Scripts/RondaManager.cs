@@ -10,6 +10,7 @@ public class RondaManager : MonoBehaviour
     public static RondaManager Instance;
     public ScoreManager scoreManager;
     public SpawnManager spawnManager;
+    public MoverChupito chupitos;
 
     [Header("UI")]
     public TextMeshProUGUI countdownText;      // Texto 3-2-1-GO
@@ -51,6 +52,7 @@ public class RondaManager : MonoBehaviour
     // INICIO DE RONDA
     IEnumerator InicioRonda()
     {
+        chupitos.ResetearChupitos();
         music.Stop();
         rondaActiva = false;
 
@@ -94,7 +96,7 @@ public class RondaManager : MonoBehaviour
         if (!rondaActiva) return;
         rondaActiva = false;
         spawnManager.DestruirBotellaActual();
-
+        music.Stop();
 
         // Determinar ganador de la ronda
         if (puntosJ1 > puntosJ2)

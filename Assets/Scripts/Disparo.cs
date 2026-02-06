@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
 using static UnityEngine.GraphicsBuffer;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class Disparo : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class Disparo : MonoBehaviour
 
     public AudioSource sonidoAcierto;   // Sonido de botella rota
     public AudioSource sonidoFallo;     // Sonido de fallo
+    public AudioSource sonidoBoton;
+
     void Start()
     {
         // Ocultar las chispas del disparo
@@ -70,7 +74,6 @@ public class Disparo : MonoBehaviour
         if (myGamepad != null && myGamepad.buttonSouth.wasPressedThisFrame)
         {
             disparo = true;
-            StartCoroutine(Flash());
             AspectoMirilla();
         }
 
@@ -80,13 +83,11 @@ public class Disparo : MonoBehaviour
             if (player1 && Keyboard.current.leftCtrlKey.wasPressedThisFrame)
             {
                 disparo = true;
-                StartCoroutine(Flash());
                 AspectoMirilla();
             }
             if (!player1 && Keyboard.current.rightCtrlKey.wasPressedThisFrame)
             {
                 disparo = true;
-                StartCoroutine(Flash());
                 AspectoMirilla();
             }
         }
@@ -96,18 +97,48 @@ public class Disparo : MonoBehaviour
             return;
         }
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, mirilla.rectTransform.position);
+
+
+        // RAYCAST UI
+        PointerEventData pointerData = new PointerEventData(EventSystem.current);
+        pointerData.position = screenPos;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            // Comprobar que es layer UI
+            if (result.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                sonidoBoton.Play();
+                Button btn = result.gameObject.GetComponent<Button>();
+
+                if (btn != null)
+                {
+                    btn.onClick.Invoke(); // Ejecuta el botón
+                    return;
+                }
+            }
+        }
+
+
+        // RAYCAST 3D
         Ray ray = camara.ScreenPointToRay(screenPos);
         
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            StartCoroutine(Flash());
             if (hit.collider.CompareTag("Botella"))
             {
                 Objetivo target = hit.collider.GetComponent<Objetivo>();
                 target.Disparado(this);
                 sonidoAcierto.pitch = Random.Range(0.8f, 1.6f);
                 sonidoAcierto.Play();
+                sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
+                sonidoFallo.Play();
             }
-            else 
+            else
             {
                 Debug.Log("Disparo fallido");
                 sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
@@ -131,6 +162,7 @@ public class Disparo : MonoBehaviour
         }
         else
         {
+            StartCoroutine(Flash());
             Debug.Log("Disparo fallido");
             sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
             sonidoFallo.Play();
@@ -144,4 +176,5 @@ public class Disparo : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         chispas.enabled = false;     // desaparece
     }
+    
 }
