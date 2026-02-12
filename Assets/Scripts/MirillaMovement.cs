@@ -108,7 +108,28 @@ public class MirillaMovement : MonoBehaviour
 
     void Borrachera(int chupitosBebidos)
     {
+        switch (chupitosBebidos)
+        {
+            case 0:
+                suavizado = 0.1f;
+                break;
 
+            case 1:
+                suavizado = 0.125f;
+                break;
+
+            case 2:
+                suavizado = 0.15f;
+                break;
+
+            case 3:
+                suavizado = 0.175f;
+                break;
+
+            case 4:
+                suavizado = 0.2f;
+                break;
+        }
     }
 }
 
