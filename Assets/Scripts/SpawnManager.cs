@@ -108,9 +108,13 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 bool haciaDerecha = sp.CompareTag("Derecha");
+                bool spawnLateral = sp.CompareTag("Derecha") || sp.CompareTag("Izquierda");
+
                 mov.SetDirection(haciaDerecha);
+                mov.ConfigurarPorRonda(rondaManager.RondaActual(), spawnLateral);
             }
         }
+
 
         if (esRejilla)
             botellaActual.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
