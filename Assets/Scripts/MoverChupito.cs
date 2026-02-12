@@ -1,6 +1,7 @@
 using Unity.Jobs;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class MoverChupito : MonoBehaviour
 {
@@ -20,10 +21,8 @@ public class MoverChupito : MonoBehaviour
         [HideInInspector] public Vector3 posicionInicial;
     }
 
-    [HideInInspector]
-    public int numeroChupitosJ1 = 0;
-    [HideInInspector]
-    public int numeroChupitosJ2 = 0;
+    int numeroChupitosJ1 = 0;
+    int numeroChupitosJ2 = 0;
 
     // Dos listas, una por cada tipo de objetos
     public Item[] tipoJ1;
@@ -35,6 +34,10 @@ public class MoverChupito : MonoBehaviour
     public AudioSource chupitoConseguido;
 
     private Coroutine movimientoActual;
+
+    // Referencia a las mirillas de los jugadores
+    public MirillaMovement mirillaPlayer1;
+    public MirillaMovement mirillaPlayer2;
 
     private void Start()
     {
@@ -54,10 +57,12 @@ public class MoverChupito : MonoBehaviour
         if (tipo == TipoObjeto.TipoJ1 && numeroChupitosJ1 < 5)
         {
             numeroChupitosJ1 += 1;
+            mirillaPlayer1.Borrachera(numeroChupitosJ1);
         }
         else if (tipo == TipoObjeto.TipoJ2 && numeroChupitosJ2 < 5)
         {
             numeroChupitosJ2 += 1;
+            mirillaPlayer2.Borrachera(numeroChupitosJ2);
         }
 
         // Busca el primer objeto que aún no se haya movido
@@ -122,5 +127,9 @@ public class MoverChupito : MonoBehaviour
                 item.completado = false;
             }
         }
+        mirillaPlayer1.Borrachera(0);
+        mirillaPlayer2.Borrachera(0);
+        numeroChupitosJ1 = 0;
+        numeroChupitosJ2 = 0;
     }
 }

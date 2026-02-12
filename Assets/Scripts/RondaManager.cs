@@ -33,7 +33,9 @@ public class RondaManager : MonoBehaviour
     private int rondasGanadasJ1 = 0;
     private int rondasGanadasJ2 = 0;
 
+    //Marcadores de ronda activa y número de ronda
     private bool rondaActiva = false;
+    private int rondaActual = 1;
 
     void Awake()
     {
@@ -53,7 +55,7 @@ public class RondaManager : MonoBehaviour
     // INICIO DE RONDA
     IEnumerator InicioRonda()
     {
-        chupitos.ResetearChupitos();
+        //chupitos.ResetearChupitos();
         music.Stop();
         rondaActiva = false;
 
@@ -126,6 +128,9 @@ public class RondaManager : MonoBehaviour
         // Configurar botón
         nextRoundButton.onClick.RemoveAllListeners();
         nextRoundButton.onClick.AddListener(SiguienteRonda);
+
+        // Marcamos la siguiente ronda
+        rondaActual++;
     }
 
     // SIGUIENTE RONDA / O FIN DEL JUEGO
@@ -176,5 +181,9 @@ public class RondaManager : MonoBehaviour
     public void SalirJuego()
     {
         Application.Quit(); // Cierra la aplicación en builds
+    }
+    public int RondaActual()
+    {
+        return rondaActual; // 1, 2 o 3
     }
 }

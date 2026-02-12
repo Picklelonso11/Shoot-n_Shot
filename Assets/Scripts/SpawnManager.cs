@@ -7,16 +7,23 @@ public class SpawnManager : MonoBehaviour
     [System.Serializable]
     public class RarityItem
     {
-        public GameObject prefab; // Prefab de la botella
-        public int puntos;        // 10, 25, 50 o 75
-        public int weight;        // Probabilidad
+        public GameObject prefab;
+        public int puntos;
+        public int weight;
     }
 
     [Header("Botellas")]
     public RarityItem[] items;
 
-    [Header("Spawns")]
-    public SpawnPoint[] spawnPoints;
+    // ===== SPAWNS POR RONDA =====
+    [Header("Spawns Ronda 1")]
+    public SpawnPoint[] spawnRonda1;
+
+    [Header("Spawns Ronda 2")]
+    public SpawnPoint[] spawnRonda2;
+
+    [Header("Spawns Ronda 3")]
+    public SpawnPoint[] spawnRonda3;
 
     [Header("Ronda")]
     public RondaManager rondaManager;
@@ -26,23 +33,18 @@ public class SpawnManager : MonoBehaviour
     public AudioSource sonidoPuerta;
     public AudioSource sonidoRejilla;
 
-    // Temporizador entre spawns
     private float spawnTimer = 0f;
     private float spawnInterval = 1.5f;
 
-    // Guarda el último spawn usado para NO repetirlo
     private SpawnPoint ultimoSpawn;
 
     void Update()
     {
         if (!rondaManager.RondaEnCurso())
-        {
             return;
-        }
 
         spawnTimer += Time.deltaTime;
 
-        // Si se destruyó la botella antes de 2s: spawn inmediato y reiniciar contador
         if (botellaActual == null)
         {
             SpawnBottle();
@@ -50,7 +52,6 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        // Si pasan 2 segundos y la botella sigue,forzar nuevo spawn
         if (spawnTimer >= spawnInterval)
         {
             SpawnBottle();
@@ -61,34 +62,32 @@ public class SpawnManager : MonoBehaviour
     // ================= SPAWN PRINCIPAL =================
     void SpawnBottle()
     {
-        // Elegir spawn distinto al anterior
-        SpawnPoint sp = GetWeightedSpawnPointDifferent();
+        SpawnPoint[] spawnsActuales = GetSpawnsDeRonda();
+
+        SpawnPoint sp = GetWeightedSpawnPointDifferent(spawnsActuales);
 
         bool esRejilla = sp.CompareTag("Rejilla");
         bool esPuerta = sp.CompareTag("Puerta");
 
-        // Elegir botella según el spawnPoint
-        RarityItem itemSeleccionado = (esRejilla || esPuerta) ? GetItem50o75() : GetWeightedItem();
+        RarityItem itemSeleccionado =
+            (esRejilla || esPuerta) ? GetItem50o75() : GetWeightedItem();
 
-        // Instanciar botella
         botellaActual = Instantiate(itemSeleccionado.prefab, sp.transform.position, Quaternion.identity);
 
-        // Guardar último spawn usado
         ultimoSpawn = sp;
 
-        // Sonidos 
         if (esRejilla)
         {
             sonidoRejilla.Play();
             Destroy(botellaActual, 1.8f);
         }
+
         if (esPuerta)
         {
             sonidoPuerta.Play();
             Destroy(botellaActual, 1.8f);
         }
 
-        // Abrir puerta
         SpawnPuerta spawnPuerta = sp.GetComponent<SpawnPuerta>();
         if (spawnPuerta != null)
         {
@@ -96,12 +95,9 @@ public class SpawnManager : MonoBehaviour
 
             Objetivo obj = botellaActual.GetComponent<Objetivo>();
             if (obj != null)
-            {
                 obj.spawnPuerta = spawnPuerta;
-            }
         }
 
-        // Movimiento de la botella
         MovimientoBotella mov = botellaActual.GetComponent<MovimientoBotella>();
         if (mov != null)
         {
@@ -116,30 +112,36 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        // Rotación para rejilla
         if (esRejilla)
-        {
             botellaActual.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+    }
+
+    // ===== OBTENER SPAWNS SEGÚN RONDA =====
+    SpawnPoint[] GetSpawnsDeRonda()
+    {
+        int ronda = rondaManager.RondaActual();
+
+        switch (ronda)
+        {
+            case 1: return spawnRonda1;
+            case 2: return spawnRonda2;
+            case 3: return spawnRonda3;
+            default: return spawnRonda1;
         }
     }
 
     // ========== SPAWN SIN REPETIR ==========
-    SpawnPoint GetWeightedSpawnPointDifferent()
+    SpawnPoint GetWeightedSpawnPointDifferent(SpawnPoint[] lista)
     {
         List<SpawnPoint> candidatos = new List<SpawnPoint>();
 
-        foreach (var sp in spawnPoints)
-        {
-            // Evita repetir el mismo spawn 
+        foreach (var sp in lista)
             if (sp != ultimoSpawn)
                 candidatos.Add(sp);
-        }
 
-        // Si solo hay uno disponible
         if (candidatos.Count == 0)
-            return spawnPoints[0];
+            return lista[0];
 
-        // Calcular peso total
         int totalWeight = 0;
         foreach (var sp in candidatos)
             totalWeight += sp.weight;
@@ -157,7 +159,7 @@ public class SpawnManager : MonoBehaviour
         return candidatos[0];
     }
 
-    // ========== BOTELLA NORMAL POR PESO ==========
+    // ========== BOTELLA NORMAL ==========
     RarityItem GetWeightedItem()
     {
         int totalWeight = 0;
@@ -177,7 +179,7 @@ public class SpawnManager : MonoBehaviour
         return items[0];
     }
 
-    // ========== SOLO BOTELLAS DE 50 O 75 ==========
+    // ========== SOLO 50 O 75 ==========
     RarityItem GetItem50o75()
     {
         var validas = new List<RarityItem>();
@@ -196,8 +198,6 @@ public class SpawnManager : MonoBehaviour
         {
             Destroy(botellaActual);
             botellaActual = null;
-
-            // Reinicia el contador para spawn inmediato
             spawnTimer = spawnInterval;
         }
     }

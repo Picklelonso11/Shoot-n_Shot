@@ -106,28 +106,33 @@ public class MirillaMovement : MonoBehaviour
         img.anchoredPosition = pos;
     }
 
-    void Borrachera(int chupitosBebidos)
+    public void Borrachera(int chupitosBebidos)
     {
         switch (chupitosBebidos)
         {
             case 0:
                 suavizado = 0.1f;
+                Debug.Log("0.1");
                 break;
 
             case 1:
-                suavizado = 0.125f;
+                suavizado = 0.2f;
+                Debug.Log("0.2");
                 break;
 
             case 2:
-                suavizado = 0.15f;
+                suavizado = 0.3f;
+                Debug.Log("0.3");
                 break;
 
             case 3:
-                suavizado = 0.175f;
+                suavizado = 0.4f;
+                Debug.Log("0.4");
                 break;
 
             case 4:
-                suavizado = 0.2f;
+                suavizado = 0.5f;
+                Debug.Log("0.5");
                 break;
         }
     }
