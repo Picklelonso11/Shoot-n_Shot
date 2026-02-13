@@ -35,7 +35,7 @@ public class RondaManager : MonoBehaviour
 
     //Marcadores de ronda activa y número de ronda
     private bool rondaActiva = false;
-    private int rondaActual = 1;
+    private int rondaActual = 2;
 
     void Awake()
     {
@@ -55,7 +55,7 @@ public class RondaManager : MonoBehaviour
     // INICIO DE RONDA
     IEnumerator InicioRonda()
     {
-        //chupitos.ResetearChupitos();
+        chupitos.ResetearChupitos();
         music.Stop();
         rondaActiva = false;
 

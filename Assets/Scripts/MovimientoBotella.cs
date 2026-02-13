@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+
 
 public class MovimientoBotella : MonoBehaviour
 {
@@ -7,7 +9,7 @@ public class MovimientoBotella : MonoBehaviour
     public float frequency = 2f;
 
     [Header("Ronda 2")]
-    public float fuerzaVertical = 3f;
+    public float fuerzaVertical = 4.5f;
     public float velocidadRotacion = 360f;
 
     private float startY;
@@ -43,7 +45,35 @@ public class MovimientoBotella : MonoBehaviour
         {
             if (spawnLateral)
             {
-                tipoMovimiento = TipoMovimiento.Normal;
+                tipoMovimiento = TipoMovimiento.RotarYSaltar;
+
+                if (rb != null)
+                {
+                    rb.isKinematic = false;     // permitir física
+                    rb.useGravity = true;       // que caiga
+
+                    rb.linearDamping = 1.5f;           // frena el movimiento vertical
+                    rb.angularDamping = 0.5f;    // giro suave
+                    rb.linearVelocity = Vector3.zero; // limpiar velocidad previa
+
+                    if (moveDir == Vector3.right)
+                    {
+                        Debug.Log("derecha");
+                        rb.AddForce(new Vector3 (1, 1, 0) * fuerzaVertical, ForceMode.Impulse);
+                    }
+                    else if (moveDir == Vector3.left)
+                    {
+                        Debug.Log("izquierda");
+                        rb.AddForce(new Vector3(-1, 1, 0) * fuerzaVertical, ForceMode.Impulse);
+                    }
+                    else
+                    {
+                        Debug.Log("no está identificando el spawn");
+                    }
+
+                        // Gravedad reducida
+                        StartCoroutine(GravedadSuave(rb));
+                }
             }
             else
             {
@@ -54,10 +84,15 @@ public class MovimientoBotella : MonoBehaviour
                     rb.isKinematic = false;     // permitir física
                     rb.useGravity = true;       // que caiga
 
+                    rb.linearDamping = 1.5f;           // frena el movimiento vertical
+                    rb.angularDamping = 0.5f;    // giro suave
+
                     rb.linearVelocity = Vector3.zero; // limpiar velocidad previa
                     rb.AddForce(Vector3.up * fuerzaVertical, ForceMode.Impulse);
-                }
 
+                    // Gravedad reducida
+                    StartCoroutine(GravedadSuave(rb));
+                }
             }
         }
         else if (ronda == 3)
@@ -83,14 +118,22 @@ public class MovimientoBotella : MonoBehaviour
                 break;
 
             case TipoMovimiento.RotarYSaltar:
-                transform.Rotate(Vector3.up * velocidadRotacion * Time.deltaTime);
+                transform.Rotate(Vector3.forward * velocidadRotacion * Time.deltaTime);
                 break;
 
             case TipoMovimiento.SinMovimiento:
                 break;
         }
     }
-
+    IEnumerator GravedadSuave(Rigidbody rb)
+    {
+        while (rb != null && !rb.isKinematic)
+        {
+            // Caída más lenta
+            rb.AddForce(-Physics.gravity * 0.9f, ForceMode.Acceleration);
+            yield return null;
+        }
+    }
     void MovimientoNormal()
     {
         time += Time.deltaTime;
