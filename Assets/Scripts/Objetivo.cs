@@ -56,4 +56,31 @@ public class Objetivo : MonoBehaviour
             spawnPuerta.CerrarPuerta();
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Explosion();    
+    }
+    void Explosion()
+    {
+        // Instanciar la botella fracturada
+        GameObject fracturado = Instantiate(prefabFracturado, transform.position, transform.rotation);
+        // Aplicar físicas a cada trozo
+        Rigidbody[] trozos = fracturado.GetComponentsInChildren<Rigidbody>();
+
+        foreach (var rb in trozos)
+        {
+            // Fuerza explosiva hacia afuera
+            Vector3 fuerzaRandom = Random.insideUnitSphere * 3f;
+            rb.AddForce(fuerzaRandom, ForceMode.Impulse);
+
+            // Pequeña rotación aleatoria
+            rb.AddTorque(Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        }
+
+        // Destruir la botella original
+        Destroy(gameObject);
+
+        // Destruir los trozos después de un tiempo
+        Destroy(fracturado, 5f);
+    }
 }

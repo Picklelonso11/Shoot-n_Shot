@@ -179,6 +179,4 @@ public class Disparo : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         chispas.enabled = false;     // desaparece
     }
-
-
 }

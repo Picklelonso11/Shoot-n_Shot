@@ -108,8 +108,11 @@ MonoBehaviour:
   speed: 0.9
   amplitude: 0
   frequency: 0
-  fuerzaVertical: 3.5
+  fuerzaVertical: 3
   velocidadRotacion: 360
+  gravedadSubiendo: 1
+  gravedadBajando: 10
+  multiplicadorTiempo: 1.2
 --- !u!54 &-2604467449452990335
 Rigidbody:
   m_ObjectHideFlags: 0

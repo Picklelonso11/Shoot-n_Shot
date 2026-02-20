@@ -1,13 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class MirillaMovement : MonoBehaviour
 {
     private bool imPlayer1;
 
+    [SerializeField]
+    RondaManager rondaManager;
+    [SerializeField]
+    ScoreManager scoreManager;
+
     [Header("Velocidad")]
     public float velocidadMax = 1100f;   // Velocidad máxima que puede alcanzar la mirilla
     public float suavizado = 0.1f;     // Tiempo de aceleración y frenado (más alto = más suave)
+
+    [Header("Borrachera avanzada")]
+    public float driftVelocidad = 0.8f;     // Qué tan rápido se tuerce
+    public float driftMax = 1.5f;           // Máxima desviación permitida
+
+    private Vector2 driftActual = Vector2.zero;
+    private int nivelBorrachera = 0;
 
     public RectTransform img;
     public RectTransform canvas;
@@ -19,6 +32,9 @@ public class MirillaMovement : MonoBehaviour
 
     // Variable interna necesaria para SmoothDamp
     private Vector2 velocidadRef;
+
+    private Coroutine borracheraActiva;
+    private float suavizadoBase = 0.1f;
 
     void Start()
     {
@@ -44,9 +60,28 @@ public class MirillaMovement : MonoBehaviour
         // Obtener dirección de entrada (mando o teclado)
         Vector2 input = ObtenerInput();
 
-        // Convertir dirección en velocidad objetivo
-        Vector2 velocidadObjetivo = input * velocidadMax;
+        // ===== DRIFT SOLO EN BORRACHERA ALTA =====
+        if (nivelBorrachera >= 3 && nivelBorrachera < 5 && input != Vector2.zero)
+        {
+            // Dirección perpendicular aleatoria estable
+            Vector2 perpendicular = new Vector2(-input.y, input.x);
 
+            // Aumenta desviación progresivamente mientras mantienes
+            driftActual += perpendicular * driftVelocidad * Time.deltaTime;
+
+            // Limitar cuánto se tuerce
+            driftActual = Vector2.ClampMagnitude(driftActual, driftMax);
+        }
+        else
+        {
+            // Al soltar o borrachera baja reiniciar desviación
+            driftActual = Vector2.zero;
+        }
+
+        // Dirección final con desviación
+        Vector2 direccionFinal = (input + driftActual).normalized;
+
+        Vector2 velocidadObjetivo = direccionFinal * velocidadMax;
         // Suavizar aceleración y desaceleración
         velocidadActual = Vector2.SmoothDamp(velocidadActual, velocidadObjetivo, ref velocidadRef, suavizado);
 
@@ -108,33 +143,52 @@ public class MirillaMovement : MonoBehaviour
 
     public void Borrachera(int chupitosBebidos)
     {
+        // Si ya hay una borrachera en curso, la cancelamos
+        if (borracheraActiva != null)
+        {
+            StopCoroutine(borracheraActiva);
+        }
+
+        nivelBorrachera = chupitosBebidos;
+        float nuevoSuavizado = suavizadoBase;
+
         switch (chupitosBebidos)
         {
-            case 0:
-                suavizado = 0.1f;
-                Debug.Log("0.1");
+            case 0: 
+                nuevoSuavizado = 0.1f;
+                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
                 break;
-
-            case 1:
-                suavizado = 0.2f;
-                Debug.Log("0.2");
+            case 1: 
+                nuevoSuavizado = 0.2f;
+                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
                 break;
-
-            case 2:
-                suavizado = 0.3f;
-                Debug.Log("0.3");
+            case 2: 
+                nuevoSuavizado = 0.3f;
+                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
                 break;
-
-            case 3:
-                suavizado = 0.4f;
-                Debug.Log("0.4");
+            case 3: 
+                nuevoSuavizado = 0.4f;
+                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
                 break;
-
-            case 4:
-                suavizado = 0.5f;
-                Debug.Log("0.5");
+            case 4: 
+                nuevoSuavizado = 0.5f;
+                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
+                break;
+            case 5:
+                Debug.Log("5 chupitos bebidos");
+                rondaManager.FinalizarRonda(scoreManager.score1, scoreManager.score2); 
                 break;
         }
+    }
+
+    private IEnumerator BorracheraTemporal(float valor)
+    {
+        suavizado = valor;
+
+        yield return new WaitForSeconds(3f);
+
+        suavizado = suavizadoBase;
+        borracheraActiva = null;
     }
 }
 

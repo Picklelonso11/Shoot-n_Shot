@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-
 public class MovimientoBotella : MonoBehaviour
 {
+    [Header("Movimiento ronda 1")]
     public float speed = 3f;
     public float amplitude = 1f;
     public float frequency = 2f;
@@ -11,6 +11,11 @@ public class MovimientoBotella : MonoBehaviour
     [Header("Ronda 2")]
     public float fuerzaVertical = 4.5f;
     public float velocidadRotacion = 360f;
+
+    [Header("Gravedad dinámica ronda 2")]
+    public float gravedadSubiendo = 3f;
+    public float gravedadBajando = 12f;
+    public float multiplicadorTiempo = 1.5f;
 
     private float startY;
     private float time;
@@ -24,82 +29,7 @@ public class MovimientoBotella : MonoBehaviour
     }
 
     private TipoMovimiento tipoMovimiento = TipoMovimiento.Normal;
-
     private Rigidbody rb;
-
-    public void SetDirection(bool haciaDerecha)
-    {
-        moveDir = haciaDerecha ? Vector3.right : Vector3.left;
-    }
-
-    // configurar desde SpawnManager
-    public void ConfigurarPorRonda(int ronda, bool spawnLateral)
-    {
-        rb = GetComponent<Rigidbody>();
-
-        if (ronda == 1)
-        {
-            tipoMovimiento = TipoMovimiento.Normal;
-        }
-        else if (ronda == 2)
-        {
-            if (spawnLateral)
-            {
-                tipoMovimiento = TipoMovimiento.RotarYSaltar;
-
-                if (rb != null)
-                {
-                    rb.isKinematic = false;     // permitir física
-                    rb.useGravity = true;       // que caiga
-
-                    rb.linearDamping = 1.5f;           // frena el movimiento vertical
-                    rb.angularDamping = 0.5f;    // giro suave
-                    rb.linearVelocity = Vector3.zero; // limpiar velocidad previa
-
-                    if (moveDir == Vector3.right)
-                    {
-                        Debug.Log("derecha");
-                        rb.AddForce(new Vector3 (1, 1, 0) * fuerzaVertical, ForceMode.Impulse);
-                    }
-                    else if (moveDir == Vector3.left)
-                    {
-                        Debug.Log("izquierda");
-                        rb.AddForce(new Vector3(-1, 1, 0) * fuerzaVertical, ForceMode.Impulse);
-                    }
-                    else
-                    {
-                        Debug.Log("no está identificando el spawn");
-                    }
-
-                        // Gravedad reducida
-                        StartCoroutine(GravedadSuave(rb));
-                }
-            }
-            else
-            {
-                tipoMovimiento = TipoMovimiento.RotarYSaltar;
-
-                if (rb != null)
-                {
-                    rb.isKinematic = false;     // permitir física
-                    rb.useGravity = true;       // que caiga
-
-                    rb.linearDamping = 1.5f;           // frena el movimiento vertical
-                    rb.angularDamping = 0.5f;    // giro suave
-
-                    rb.linearVelocity = Vector3.zero; // limpiar velocidad previa
-                    rb.AddForce(Vector3.up * fuerzaVertical, ForceMode.Impulse);
-
-                    // Gravedad reducida
-                    StartCoroutine(GravedadSuave(rb));
-                }
-            }
-        }
-        else if (ronda == 3)
-        {
-            tipoMovimiento = TipoMovimiento.SinMovimiento;
-        }
-    }
 
     void Start()
     {
@@ -125,15 +55,79 @@ public class MovimientoBotella : MonoBehaviour
                 break;
         }
     }
-    IEnumerator GravedadSuave(Rigidbody rb)
+
+    void FixedUpdate()
     {
-        while (rb != null && !rb.isKinematic)
+        if (tipoMovimiento != TipoMovimiento.RotarYSaltar || rb == null || rb.isKinematic)
+            return;
+
+        Vector3 v = rb.linearVelocity;
+
+        bool subiendo = v.y > 0f;
+        float gravedad = subiendo ? gravedadSubiendo : gravedadBajando;
+
+        // Aplicamos gravedad manual y desactivamos la de Unity
+        rb.linearVelocity += Vector3.down * gravedad * multiplicadorTiempo * Time.fixedDeltaTime;
+    }
+
+    public void SetDirection(bool haciaDerecha)
+    {
+        moveDir = haciaDerecha ? Vector3.right : Vector3.left;
+    }
+
+    // ================= CONFIGURACIÓN POR RONDA =================
+    public void ConfigurarPorRonda(int ronda, bool spawnLateral)
+    {
+        rb = GetComponent<Rigidbody>();
+
+        if (ronda == 1)
         {
-            // Caída más lenta
-            rb.AddForce(-Physics.gravity * 0.9f, ForceMode.Acceleration);
-            yield return null;
+            tipoMovimiento = TipoMovimiento.Normal;
+            return;
+        }
+
+        if (ronda == 2)
+        {
+            tipoMovimiento = TipoMovimiento.RotarYSaltar;
+
+            if (rb == null) return;
+
+            // Activar físicas 
+            rb.isKinematic = false;
+            rb.useGravity = false;          // Usamos gravedad manual
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            rb.linearDamping = 1.2f;
+            rb.angularDamping = 0.4f;
+
+            if (spawnLateral)
+            {
+                Vector3 impulso = moveDir + Vector3.up * 0.6f;
+                rb.AddForce(impulso.normalized * fuerzaVertical, ForceMode.Impulse);
+            }
+            else
+            {
+                rb.AddForce(Vector3.up * fuerzaVertical, ForceMode.Impulse);
+            }
+
+            return;
+        }
+
+        if (ronda == 3)
+        {
+            tipoMovimiento = TipoMovimiento.SinMovimiento;
+
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = true;
+            }
         }
     }
+
+    // ================= MOVIMIENTO RONDA 1 =================
     void MovimientoNormal()
     {
         time += Time.deltaTime;

@@ -63,31 +63,40 @@ public class SpawnManager : MonoBehaviour
     void SpawnBottle()
     {
         SpawnPoint[] spawnsActuales = GetSpawnsDeRonda();
-
         SpawnPoint sp = GetWeightedSpawnPointDifferent(spawnsActuales);
 
         bool esRejilla = sp.CompareTag("Rejilla");
         bool esPuerta = sp.CompareTag("Puerta");
 
-        RarityItem itemSeleccionado =
-            (esRejilla || esPuerta) ? GetItem50o75() : GetWeightedItem();
+        int ronda = rondaManager.RondaActual();
+        bool esLateral = sp.CompareTag("Izquierda") || sp.CompareTag("Derecha");
+
+        RarityItem itemSeleccionado;
+
+        // Rejilla o puerta = siempre 50/75
+        if (esRejilla || esPuerta)
+        {
+            itemSeleccionado = GetItem50o75();
+        }
+        // Ronda 2 + lateral = 50/75
+        else if (ronda == 2 && esLateral)
+        {
+            itemSeleccionado = GetItem50o75();
+        }
+        // Resto por peso
+        else
+        {
+            itemSeleccionado = GetWeightedItem();
+        }
 
         botellaActual = Instantiate(itemSeleccionado.prefab, sp.transform.position, Quaternion.identity);
-
         ultimoSpawn = sp;
 
-        if (esRejilla)
-        {
-            sonidoRejilla.Play();
-            Destroy(botellaActual, 1.8f);
-        }
+        // ===== SONIDOS =====
+        if (esRejilla) sonidoRejilla.Play();
+        if (esPuerta) sonidoPuerta.Play();
 
-        if (esPuerta)
-        {
-            sonidoPuerta.Play();
-            Destroy(botellaActual, 1.8f);
-        }
-
+        // ===== APERTURA DE PUERTA =====
         SpawnPuerta spawnPuerta = sp.GetComponent<SpawnPuerta>();
         if (spawnPuerta != null)
         {
@@ -98,6 +107,7 @@ public class SpawnManager : MonoBehaviour
                 obj.spawnPuerta = spawnPuerta;
         }
 
+        // ===== MOVIMIENTO =====
         MovimientoBotella mov = botellaActual.GetComponent<MovimientoBotella>();
         if (mov != null)
         {
@@ -108,16 +118,22 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 bool haciaDerecha = sp.CompareTag("Derecha");
-                bool spawnLateral = sp.CompareTag("Derecha") || sp.CompareTag("Izquierda");
+                bool spawnLateral = esLateral;
 
                 mov.SetDirection(haciaDerecha);
-                mov.ConfigurarPorRonda(rondaManager.RondaActual(), spawnLateral);
+                mov.ConfigurarPorRonda(ronda, spawnLateral);
             }
         }
 
-
+        // ===== ROTACIÓN REJILLA =====
         if (esRejilla)
             botellaActual.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+
+        // ===== TIEMPO DE VIDA =====
+        if (esRejilla || esPuerta)
+            Destroy(botellaActual, 2f);
+        else
+            Destroy(botellaActual, 7f);
     }
 
     // ===== OBTENER SPAWNS SEGÚN RONDA =====
@@ -189,7 +205,7 @@ public class SpawnManager : MonoBehaviour
         var validas = new List<RarityItem>();
 
         foreach (var item in items)
-            if (item.puntos == 50 || item.puntos == 75)
+            if (item.puntos == 50 || item.puntos == 75 || item.puntos == -50)
                 validas.Add(item);
 
         return validas[Random.Range(0, validas.Count)];

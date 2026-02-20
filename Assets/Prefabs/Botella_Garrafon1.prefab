@@ -90,11 +90,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43beeb50f95fd634fa6475203b950ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 0.6
   amplitude: 0
   frequency: 0
-  fuerzaVertical: 3.5
+  fuerzaVertical: 3
   velocidadRotacion: 360
+  gravedadSubiendo: 1
+  gravedadBajando: 10
+  multiplicadorTiempo: 1.2
 --- !u!114 &6431970594113490115
 MonoBehaviour:
   m_ObjectHideFlags: 0
