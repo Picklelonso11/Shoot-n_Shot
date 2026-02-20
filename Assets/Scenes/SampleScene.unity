@@ -3163,7 +3163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 556808751}
   - component: {fileID: 556808752}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnfloor1 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -3572,7 +3572,7 @@ GameObject:
   m_Component:
   - component: {fileID: 671831719}
   - component: {fileID: 671831720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnLateral_dcha
   m_TagString: Izquierda
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -3914,7 +3914,7 @@ GameObject:
   m_Component:
   - component: {fileID: 736128555}
   - component: {fileID: 736128556}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnLateral_izq
   m_TagString: Derecha
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -5759,7 +5759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rondaManager: {fileID: 796759637}
   scoreManager: {fileID: 1866015859}
-  velocidadMax: 1100
+  velocidadMax: 1500
   suavizado: 0.09
   driftVelocidad: 0.8
   driftMax: 1.5
@@ -5797,8 +5797,8 @@ MonoBehaviour:
   chispas: {fileID: 1837575873}
   camara: {fileID: 963194227}
   balazosPrefabs:
-  - {fileID: 8133194707797750241, guid: 3dd375b92c325564abe9720da10c8b15, type: 3}
-  - {fileID: 638666329469721845, guid: be99eab00f0a7cc4fb177c30563f80b4, type: 3}
+  - {fileID: 5221806514221572823, guid: d482fd803fee79d47af21ebbea815bc4, type: 3}
+  - {fileID: 5689550103564163328, guid: 780b3cc2b4b8df7408cf34d3887e32e0, type: 3}
   sonidoAcierto: {fileID: 468429969}
   sonidoFallo: {fileID: 99800232}
   sonidoBoton: {fileID: 121622516}
@@ -6031,7 +6031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1029186980}
   - component: {fileID: 1029186981}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnfloor1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -7412,7 +7412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rondaManager: {fileID: 796759637}
   scoreManager: {fileID: 1866015859}
-  velocidadMax: 1100
+  velocidadMax: 1500
   suavizado: 0.09
   driftVelocidad: 0.8
   driftMax: 1.5
@@ -7450,8 +7450,8 @@ MonoBehaviour:
   chispas: {fileID: 1850517268}
   camara: {fileID: 963194227}
   balazosPrefabs:
-  - {fileID: 8133194707797750241, guid: 3dd375b92c325564abe9720da10c8b15, type: 3}
-  - {fileID: 638666329469721845, guid: be99eab00f0a7cc4fb177c30563f80b4, type: 3}
+  - {fileID: 5221806514221572823, guid: d482fd803fee79d47af21ebbea815bc4, type: 3}
+  - {fileID: 5689550103564163328, guid: 780b3cc2b4b8df7408cf34d3887e32e0, type: 3}
   sonidoAcierto: {fileID: 468429969}
   sonidoFallo: {fileID: 99800232}
   sonidoBoton: {fileID: 121622516}
@@ -7574,7 +7574,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1319361576}
   - component: {fileID: 1319361577}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnfloor1 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -8582,7 +8582,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1636793542}
   - component: {fileID: 1636793543}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnfloor1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -9216,7 +9216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1774501448}
   - component: {fileID: 1774501449}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnfloor1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -9539,7 +9539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1833606858}
   - component: {fileID: 1833606859}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: spawnfloor1 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -9575,62 +9575,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 10
   ocupado: 0
---- !u!1 &1835961536
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1835961538}
-  - component: {fileID: 1835961537}
-  m_Layer: 0
-  m_Name: Decal Projector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1835961537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1835961536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 7f0172db653ef7d4ea3b36aacbc0f1d2, type: 2}
-  m_DrawDistance: 50
-  m_FadeScale: 0.9
-  m_StartAngleFade: 180
-  m_EndAngleFade: 180
-  m_UVScale: {x: 1, y: 1}
-  m_UVBias: {x: 0, y: 0}
-  m_DecalLayerMask: 4294967295
-  m_ScaleMode: 0
-  m_Offset: {x: 0, y: 0, z: 0.025}
-  m_Size: {x: 0.1, y: 0.1, z: 0.05}
-  m_FadeFactor: 1
---- !u!4 &1835961538
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1835961536}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.161, y: 2.055, z: -0.978}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1837575871
 GameObject:
   m_ObjectHideFlags: 0
@@ -10096,6 +10040,8 @@ MonoBehaviour:
   - {fileID: 1589804219}
   - {fileID: 504256779}
   - {fileID: 1736359938}
+  - {fileID: 671831720}
+  - {fileID: 736128556}
   spawnRonda2:
   - {fileID: 741597738}
   - {fileID: 1029186981}
@@ -10549,4 +10495,3 @@ SceneRoots:
   - {fileID: 988092364}
   - {fileID: 1379513670}
   - {fileID: 1813770103}
-  - {fileID: 1835961538}

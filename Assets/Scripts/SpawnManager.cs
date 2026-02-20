@@ -34,7 +34,7 @@ public class SpawnManager : MonoBehaviour
     public AudioSource sonidoRejilla;
 
     private float spawnTimer = 0f;
-    private float spawnInterval = 1.5f;
+    private float spawnInterval = 1f;
 
     private SpawnPoint ultimoSpawn;
 
@@ -67,6 +67,16 @@ public class SpawnManager : MonoBehaviour
 
         bool esRejilla = sp.CompareTag("Rejilla");
         bool esPuerta = sp.CompareTag("Puerta");
+        bool esLanzado;
+
+        if (sp.gameObject.layer == LayerMask.NameToLayer("Throws"))
+        {
+            esLanzado = true;
+        }
+        else
+        {
+            esLanzado= false;
+        }
 
         int ronda = rondaManager.RondaActual();
         bool esLateral = sp.CompareTag("Izquierda") || sp.CompareTag("Derecha");
@@ -75,6 +85,10 @@ public class SpawnManager : MonoBehaviour
 
         // Rejilla o puerta = siempre 50/75
         if (esRejilla || esPuerta)
+        {
+            itemSeleccionado = GetItem50o75();
+        }
+        else if (ronda == 1 && esLanzado == true)
         {
             itemSeleccionado = GetItem50o75();
         }
@@ -121,7 +135,7 @@ public class SpawnManager : MonoBehaviour
                 bool spawnLateral = esLateral;
 
                 mov.SetDirection(haciaDerecha);
-                mov.ConfigurarPorRonda(ronda, spawnLateral);
+                mov.ConfigurarPorRonda(ronda, spawnLateral, esLanzado);
             }
         }
 
@@ -133,7 +147,7 @@ public class SpawnManager : MonoBehaviour
         if (esRejilla || esPuerta)
             Destroy(botellaActual, 2f);
         else
-            Destroy(botellaActual, 7f);
+            Destroy(botellaActual, 4f);
     }
 
     // ===== OBTENER SPAWNS SEGÚN RONDA =====

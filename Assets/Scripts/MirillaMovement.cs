@@ -82,6 +82,7 @@ public class MirillaMovement : MonoBehaviour
         Vector2 direccionFinal = (input + driftActual).normalized;
 
         Vector2 velocidadObjetivo = direccionFinal * velocidadMax;
+
         // Suavizar aceleración y desaceleración
         velocidadActual = Vector2.SmoothDamp(velocidadActual, velocidadObjetivo, ref velocidadRef, suavizado);
 
@@ -159,19 +160,19 @@ public class MirillaMovement : MonoBehaviour
                 borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
                 break;
             case 1: 
-                nuevoSuavizado = 0.2f;
-                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
-                break;
-            case 2: 
-                nuevoSuavizado = 0.3f;
-                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
-                break;
-            case 3: 
                 nuevoSuavizado = 0.4f;
                 borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
                 break;
-            case 4: 
+            case 2: 
                 nuevoSuavizado = 0.5f;
+                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
+                break;
+            case 3: 
+                nuevoSuavizado = 0.7f;
+                borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
+                break;
+            case 4: 
+                nuevoSuavizado = 0.9f;
                 borracheraActiva = StartCoroutine(BorracheraTemporal(nuevoSuavizado));
                 break;
             case 5:
@@ -185,7 +186,7 @@ public class MirillaMovement : MonoBehaviour
     {
         suavizado = valor;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
 
         suavizado = suavizadoBase;
         borracheraActiva = null;

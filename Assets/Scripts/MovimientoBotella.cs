@@ -76,13 +76,40 @@ public class MovimientoBotella : MonoBehaviour
     }
 
     // ================= CONFIGURACIÓN POR RONDA =================
-    public void ConfigurarPorRonda(int ronda, bool spawnLateral)
+    public void ConfigurarPorRonda(int ronda, bool spawnLateral, bool esLanzado)
     {
         rb = GetComponent<Rigidbody>();
 
-        if (ronda == 1)
+        if (ronda == 1 && esLanzado == false)
         {
             tipoMovimiento = TipoMovimiento.Normal;
+            return;
+        }
+        else
+        {
+            tipoMovimiento = TipoMovimiento.RotarYSaltar;
+
+            if (rb == null) return;
+
+            // Activar físicas 
+            rb.isKinematic = false;
+            rb.useGravity = false;          // Usamos gravedad manual
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            rb.linearDamping = 1.2f;
+            rb.angularDamping = 0.4f;
+
+            if (spawnLateral)
+            {
+                Vector3 impulso = moveDir + Vector3.up * 0.6f;
+                rb.AddForce(impulso.normalized * fuerzaVertical, ForceMode.Impulse);
+            }
+            else
+            {
+                rb.AddForce(Vector3.up * fuerzaVertical, ForceMode.Impulse);
+            }
+
             return;
         }
 

@@ -35,7 +35,7 @@ public class RondaManager : MonoBehaviour
 
     //Marcadores de ronda activa y número de ronda
     private bool rondaActiva = false;
-    private int rondaActual = 2;
+    private int rondaActual = 1;
 
     void Awake()
     {

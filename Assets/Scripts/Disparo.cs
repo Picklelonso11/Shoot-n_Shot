@@ -6,9 +6,12 @@ using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using System;
 
 public class Disparo : MonoBehaviour
 {
+    public event Action haDisparado; 
+
     [HideInInspector] public bool imPlayer1;
     public RawImage mirilla;
     public RawImage chispas;
@@ -20,6 +23,8 @@ public class Disparo : MonoBehaviour
     public AudioSource sonidoAcierto;   // Sonido de botella rota
     public AudioSource sonidoFallo;     // Sonido de fallo
     public AudioSource sonidoBoton;
+
+    
 
     void Start()
     {
@@ -69,7 +74,7 @@ public class Disparo : MonoBehaviour
     private void DisparoJugador(bool player1)
     {
         bool disparo = false;
-
+        haDisparado.Invoke();
         // Entrada mando
         if (myGamepad != null)
         {
@@ -136,19 +141,19 @@ public class Disparo : MonoBehaviour
             {
                 Objetivo target = hit.collider.GetComponent<Objetivo>();
                 target.Disparado(this);
-                sonidoAcierto.pitch = Random.Range(0.8f, 1.6f);
+                sonidoAcierto.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 sonidoAcierto.Play();
-                sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
+                sonidoFallo.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 sonidoFallo.Play();
             }
             else
             {
                 Debug.Log("Disparo fallido");
-                sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
+                sonidoFallo.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
                 sonidoFallo.Play();
                 if (hit.collider.CompareTag("Mueble"))
                 {
-                    int randomIndex = Random.Range(0, balazosPrefabs.Length);
+                    int randomIndex = UnityEngine.Random.Range(0, balazosPrefabs.Length);
 
                     // Selecciona el prefab correspondiente
                     GameObject prefabSeleccionado = balazosPrefabs[randomIndex];
@@ -167,14 +172,14 @@ public class Disparo : MonoBehaviour
         {
             StartCoroutine(Flash());
             Debug.Log("Disparo fallido");
-            sonidoFallo.pitch = Random.Range(0.8f, 1.6f);
-            sonidoFallo.Play();
+            sonidoFallo.pitch = UnityEngine.Random.Range(0.8f, 1.6f);
+            sonidoFallo.Play(); 
         }
 
     }
     private IEnumerator Flash()
     {
-        chispas.rectTransform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+        chispas.rectTransform.rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f));
         chispas.enabled = true;      // aparece
         yield return new WaitForSeconds(0.05f);
         chispas.enabled = false;     // desaparece
