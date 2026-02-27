@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
+[HideInInspector]
 public enum InputDeviceType { Keyboard, NumpadKeyboard, Gamepad }
 
 public class Ammunition : MonoBehaviour
@@ -103,7 +104,9 @@ public class Ammunition : MonoBehaviour
         UpdateUI();
 
         if (currentAmmo <= 0)
+        {
             StartManualReload();
+        }
 
         return true;
     }

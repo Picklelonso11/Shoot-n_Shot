@@ -23,11 +23,12 @@ public class Disparo : MonoBehaviour
     public AudioSource sonidoAcierto;   // Sonido de botella rota
     public AudioSource sonidoFallo;     // Sonido de fallo
     public AudioSource sonidoBoton;
-
+    public Ammunition Ammunition;
     
 
     void Start()
     {
+        Ammunition = GetComponent<Ammunition>();
         // Ocultar las chispas del disparo
         chispas.enabled = false;
         // Identificar jugador
@@ -45,11 +46,11 @@ public class Disparo : MonoBehaviour
     }
     void Update()
     {
-        if (imPlayer1)
+        if (imPlayer1 && Ammunition.TryShoot())
         {
             DisparoJugador(true);
         }
-        else
+        else if (!imPlayer1 && Ammunition.TryShoot())
         {
             DisparoJugador(false);
         }
