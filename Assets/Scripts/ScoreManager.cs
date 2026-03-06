@@ -61,15 +61,15 @@ public class ScoreManager : MonoBehaviour
         // Si el disparo fue del jugador 1
         if (player1)
         {
-            scoreJ1 += puntos;
-            score1 += puntos;
+            scoreJ1 = Mathf.Max(0, scoreJ1 + puntos);  
+            score1 = Mathf.Max(0, score1 + puntos);    
             scoreTextJ1.text = "J1:" + score1;
         }
         // Si el disparo fue del jugador 2
         else
         {
-            scoreJ2 += puntos;
-            score2 += puntos;
+            scoreJ2 = Mathf.Max(0, scoreJ2 + puntos);  
+            score2 = Mathf.Max(0, score2 + puntos);    
             scoreTextJ2.text = "J2:" + score2;
         }
     }

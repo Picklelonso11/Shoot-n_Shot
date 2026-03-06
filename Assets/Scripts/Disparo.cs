@@ -18,17 +18,21 @@ public class Disparo : MonoBehaviour
     public Camera camara;
     public GameObject [] balazosPrefabs;
 
+    [Header("Decals")]
+    public int maxDecals = 10; // Límite de decals en escena
+    private Queue<GameObject> decalPool = new Queue<GameObject>(); // Cola de decals activos
+
     private Gamepad myGamepad;
 
     public AudioSource sonidoAcierto;   // Sonido de botella rota
     public AudioSource sonidoFallo;     // Sonido de fallo
     public AudioSource sonidoBoton;
-    public Ammunition Ammunition;
+    Ammunition ammunition;
     
 
     void Start()
     {
-        Ammunition = GetComponent<Ammunition>();
+        ammunition = GetComponent<Ammunition>();
         // Ocultar las chispas del disparo
         chispas.enabled = false;
         // Identificar jugador
@@ -46,14 +50,28 @@ public class Disparo : MonoBehaviour
     }
     void Update()
     {
-        if (imPlayer1 && Ammunition.TryShoot())
+        DisparoJugador(imPlayer1);
+    }
+    private void SpawnDecal(Vector3 point, Vector3 normal)
+    {
+        // Si se alcanza el límite, destruye el decal más antiguo
+        if (decalPool.Count >= maxDecals)
         {
-            DisparoJugador(true);
+            GameObject oldest = decalPool.Dequeue();
+            Destroy(oldest);
         }
-        else if (!imPlayer1 && Ammunition.TryShoot())
-        {
-            DisparoJugador(false);
-        }
+
+        int randomIndex = UnityEngine.Random.Range(0, balazosPrefabs.Length);
+        GameObject prefabSeleccionado = balazosPrefabs[randomIndex];
+
+        GameObject marca = Instantiate(
+            prefabSeleccionado,
+            point + normal * 0.001f,
+            Quaternion.LookRotation(normal));
+
+        marca.transform.Rotate(0f, -180f, 0f);
+
+        decalPool.Enqueue(marca); // Añade el nuevo decal a la cola
     }
     private void AspectoMirilla()
     {
@@ -75,31 +93,23 @@ public class Disparo : MonoBehaviour
     private void DisparoJugador(bool player1)
     {
         bool disparo = false;
-        haDisparado.Invoke();
-        // Entrada mando
-        if (myGamepad != null)
-        {
-            if (myGamepad.rightShoulder.wasPressedThisFrame || myGamepad.leftShoulder.wasPressedThisFrame)
-            {
-                disparo = true;
-                AspectoMirilla();
-            }
-        }
 
-        // Entrada teclado 
-        if (!disparo)
+        // Comprobar input primero
+        if (myGamepad != null &&
+            (myGamepad.rightShoulder.wasPressedThisFrame || myGamepad.leftShoulder.wasPressedThisFrame))
         {
-            if (player1 && Keyboard.current.leftCtrlKey.wasPressedThisFrame)
-            {
-                disparo = true;
-                AspectoMirilla();
-            }
-            if (!player1 && Keyboard.current.rightCtrlKey.wasPressedThisFrame)
-            {
-                disparo = true;
-                AspectoMirilla();
-            }
+            disparo = true;
         }
+        if (!disparo && player1 && Keyboard.current.leftCtrlKey.wasPressedThisFrame)
+            disparo = true;
+        if (!disparo && !player1 && Keyboard.current.rightCtrlKey.wasPressedThisFrame)
+            disparo = true;
+
+        // Solo disparar bala si hay input Y hay balas disponibles
+        if (!disparo || !ammunition.TryShoot()) return;
+
+        haDisparado?.Invoke();
+        AspectoMirilla();
 
         if (!disparo)
         {
@@ -154,17 +164,7 @@ public class Disparo : MonoBehaviour
                 sonidoFallo.Play();
                 if (hit.collider.CompareTag("Mueble"))
                 {
-                    int randomIndex = UnityEngine.Random.Range(0, balazosPrefabs.Length);
-
-                    // Selecciona el prefab correspondiente
-                    GameObject prefabSeleccionado = balazosPrefabs[randomIndex];
-
-                    // Instancia la marca en el punto del impacto, ligeramente separada de la superficie
-                    GameObject marca = Instantiate(
-                        prefabSeleccionado, hit.point + hit.normal * 0.001f, Quaternion.LookRotation(hit.normal));
-
-                    // Muchos decals/planes vienen orientados "tumbados". Con este giro lo colocas normal.
-                    marca.transform.Rotate(0f, -180f, 0f);
+                    SpawnDecal(hit.point, hit.normal); 
                     Debug.Log("MUEBLE");
                 }
             }

@@ -11,7 +11,7 @@ public class Ammunition : MonoBehaviour
 {
     [Header("Ammo Settings")]
     public int maxAmmo = 6;
-    public float reloadInterval = 1f; // Bala cada X segundos
+    public float reloadInterval = 1f; // Una bala cada X segundos
 
     [Header("Player Settings")]
     public int playerIndex = 0; // 0 = Player1, 1 = Player2
@@ -35,33 +35,30 @@ public class Ammunition : MonoBehaviour
     private string[] numpadLabels = { "Num1", "Num2", "Num3", "Num4" };
     private string[] gamepadLabels = { "X", "○", "△", "□" };
 
-    // ─── Teclas normales ───────────────────────────────────────────────────────
+    // ─── Teclas reales ───────────────────────────────────────────────────────
     private Key[] keyboardKeys = { Key.Digit1, Key.Digit2, Key.Digit3, Key.Digit4 };
     private Key[] numpadKeys = { Key.Numpad1, Key.Numpad2, Key.Numpad3, Key.Numpad4 };
 
-    // Botones de gamepad 
+    // Botones de gamepad (requiere que el Gamepad esté asignado al player)
     private GamepadButton[] gamepadButtons =
     {
-        GamepadButton.DpadDown,  
-        GamepadButton.DpadRight,   
-        GamepadButton.DpadUp,  
-        GamepadButton.DpadLeft    
+        GamepadButton.DpadDown,  // X (PS) / A (Xbox)
+        GamepadButton.DpadRight,   // ○ (PS) / B (Xbox)
+        GamepadButton.DpadUp,  // △ (PS) / Y (Xbox)
+        GamepadButton.DpadLeft    // □ (PS) / X (Xbox)
     };
 
     // Gamepad asignado a este jugador (configura desde PlayerInputManager o manualmente)
     [HideInInspector] public Gamepad assignedGamepad;
 
-    // Variables públicas para UI
-    public int CurrentAmmo => currentAmmo;
-    public bool IsManualReloading => isManualReloading;
-    public List<int> ReloadSequence => reloadSequence;
-    public int CurrentReloadStep => currentReloadStep;
-
+    // ─────────────────────────────────────────────────────────────────────────
 
     void Start()
     {
         currentAmmo = maxAmmo;
         reloadTimer = reloadInterval;
+        isManualReloading = false;
+        ammoUI?.HideReloadSequence(playerIndex);
         UpdateUI();
     }
 
@@ -89,13 +86,13 @@ public class Ammunition : MonoBehaviour
         }
     }
 
-    // ── INTENTAR DISPARAR ──────────────────────────────────────────────────────────────
+    // ── DISPARAR ──────────────────────────────────────────────────────────────
     public bool TryShoot()
     {
         if (isManualReloading) return false;
         if (currentAmmo <= 0)
         {
-            // No hay balas (esto no debería pasar porque al llegar a 0 se activa la recarga)
+            // No hay balas - esto no debería pasar porque al llegar a 0 se activa la recarga
             return false;
         }
 
@@ -104,9 +101,7 @@ public class Ammunition : MonoBehaviour
         UpdateUI();
 
         if (currentAmmo <= 0)
-        {
             StartManualReload();
-        }
 
         return true;
     }
@@ -116,9 +111,9 @@ public class Ammunition : MonoBehaviour
     {
         isManualReloading = true;
         currentReloadStep = 0;
-        reloadSequence = GenerateRandomSequence(4); // Secuencia de 4 botones 
+        reloadSequence = GenerateRandomSequence(4); // Secuencia de 4 botones (índices 0-3)
 
-        ammoUI?.ShowReloadSequence(reloadSequence, GetButtonLabels(), playerIndex);
+        ammoUI?.ShowReloadSequence(reloadSequence, GetButtonLabels(), playerIndex, inputDevice);
         Debug.Log($"[Player {playerIndex + 1}] ¡Recarga manual! Secuencia: {string.Join(", ", GetSequenceLabels())}");
     }
 
@@ -188,6 +183,7 @@ public class Ammunition : MonoBehaviour
         Debug.Log($"[Player {playerIndex + 1}] ¡Recarga completada! Balas: {currentAmmo}/{maxAmmo}");
     }
 
+    // ── HELPERS ───────────────────────────────────────────────────────────────
     public string[] GetButtonLabels()
     {
         return inputDevice switch
@@ -212,4 +208,10 @@ public class Ammunition : MonoBehaviour
     {
         ammoUI?.UpdateAmmoDisplay(currentAmmo, maxAmmo, playerIndex);
     }
+
+    // Propiedades públicas para UI/otros scripts
+    public int CurrentAmmo => currentAmmo;
+    public bool IsManualReloading => isManualReloading;
+    public List<int> ReloadSequence => reloadSequence;
+    public int CurrentReloadStep => currentReloadStep;
 }

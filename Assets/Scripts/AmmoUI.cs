@@ -10,12 +10,21 @@ using TMPro;
 public class AmmoUI : MonoBehaviour
 {
     [System.Serializable]
+    public class ButtonSpriteSet
+    {
+        [Tooltip("Sprites en orden: botón 0, 1, 2, 3")]
+        public List<Sprite> keyboard;   // Teclas 1, 2, 3, 4
+        public List<Sprite> gamepad;    // Botones X, ○, △, □
+    }
+
+    [System.Serializable]
     public class PlayerUI
     {
         public TextMeshProUGUI ammoText;
-        public GameObject reloadPanel;         // Panel que aparece al quedarse sin balas
-        public List<Image> sequenceIcons;      // 4 imágenes para los botones de la secuencia
-        public List<Sprite> buttonSpritesP1;   // Sprites: 1,2,3,4 / Num1-4 / X,○,△,□
+        public GameObject reloadPanel;
+        public List<Image> sequenceIcons;  // 4 Image components para la secuencia
+        public ButtonSpriteSet spriteSet;  // Sprites separados por dispositivo
+
         public Color normalColor = Color.white;
         public Color activeColor = Color.yellow;
         public Color completedColor = Color.green;
@@ -36,36 +45,47 @@ public class AmmoUI : MonoBehaviour
     }
 
     // ── Mostrar secuencia de recarga ──────────────────────────────────────────
-    public void ShowReloadSequence(List<int> sequence, string[] labels, int playerIndex)
+    public void ShowReloadSequence(List<int> sequence, string[] labels, int playerIndex, InputDeviceType deviceType)
     {
         var ui = GetPlayerUI(playerIndex);
         if (ui.reloadPanel != null)
             ui.reloadPanel.SetActive(true);
 
-        // Asignar iconos/textos según la secuencia aleatoria
+        List<Sprite> sprites = GetSpritesForDevice(ui, deviceType);
+
         for (int i = 0; i < ui.sequenceIcons.Count && i < sequence.Count; i++)
         {
-            if (ui.sequenceIcons[i] != null)
-            {
-                ui.sequenceIcons[i].color = ui.normalColor;
+            if (ui.sequenceIcons[i] == null) continue;
 
-                // Si usas sprites, asigna: ui.sequenceIcons[i].sprite = ui.buttonSpritesP1[sequence[i]];
-                // Si usas TextMeshPro en los hijos, puedes poner el label de texto:
-                var label = ui.sequenceIcons[i].GetComponentInChildren<TextMeshProUGUI>();
-                if (label != null) label.text = labels[sequence[i]];
-            }
+            // El primero arranca en activeColor, el resto en normalColor
+            ui.sequenceIcons[i].color = (i == 0) ? ui.activeColor : ui.normalColor;
+
+            if (sprites != null && sequence[i] < sprites.Count && sprites[sequence[i]] != null)
+                ui.sequenceIcons[i].sprite = sprites[sequence[i]];
+
+            var label = ui.sequenceIcons[i].GetComponentInChildren<TextMeshProUGUI>();
+            if (label != null) label.text = labels[sequence[i]];
         }
+    }
+
+    List<Sprite> GetSpritesForDevice(PlayerUI ui, InputDeviceType deviceType)
+    {
+        return deviceType switch
+        {
+            InputDeviceType.Keyboard => ui.spriteSet.keyboard,
+            InputDeviceType.NumpadKeyboard => ui.spriteSet.keyboard,
+            InputDeviceType.Gamepad => ui.spriteSet.gamepad,
+            _ => ui.spriteSet.keyboard
+        };
     }
 
     // ── Resaltar paso actual ──────────────────────────────────────────────────
     public void HighlightStep(int stepCompleted, int playerIndex)
     {
         var ui = GetPlayerUI(playerIndex);
-        // Marcar el paso anterior como completado
         if (stepCompleted - 1 >= 0 && stepCompleted - 1 < ui.sequenceIcons.Count)
             ui.sequenceIcons[stepCompleted - 1].color = ui.completedColor;
 
-        // Resaltar el siguiente
         if (stepCompleted < ui.sequenceIcons.Count)
             ui.sequenceIcons[stepCompleted].color = ui.activeColor;
     }
@@ -74,8 +94,11 @@ public class AmmoUI : MonoBehaviour
     public void ResetHighlight(int playerIndex)
     {
         var ui = GetPlayerUI(playerIndex);
-        foreach (var icon in ui.sequenceIcons)
-            if (icon != null) icon.color = ui.normalColor;
+        for (int i = 0; i < ui.sequenceIcons.Count; i++)
+        {
+            if (ui.sequenceIcons[i] != null)
+                ui.sequenceIcons[i].color = (i == 0) ? ui.activeColor : ui.normalColor;
+        }
     }
 
     // ── Ocultar panel de recarga ──────────────────────────────────────────────
