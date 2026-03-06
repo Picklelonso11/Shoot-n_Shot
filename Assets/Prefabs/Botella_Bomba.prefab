@@ -48,6 +48,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7493596028755563170, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1614
+      objectReference: {fileID: 0}
+    - target: {fileID: -7493596028755563170, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0133
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0189
+      objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ca3116ea0d13234c8bf524614e3d0f3, type: 2}
     - target: {fileID: 919132149155446097, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: m_Name
       value: Botella_Bomba
@@ -97,8 +113,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.003, y: 0.003, z: 0.003}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.13, y: 0.25, z: 0.12}
+  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!114 &5402669165118472684
 MonoBehaviour:
   m_ObjectHideFlags: 0
