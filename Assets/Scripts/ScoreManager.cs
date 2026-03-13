@@ -50,8 +50,8 @@ public class ScoreManager : MonoBehaviour
             score2 = 0;
             scoreJ1 = 0;
             scoreJ2 = 0;
-            scoreTextJ1.text = "J1:" + score1;
-            scoreTextJ2.text = "J2:" + score2;
+            scoreTextJ1.text = "" + score1;
+            scoreTextJ2.text = "" + score2;
         }
     }
 

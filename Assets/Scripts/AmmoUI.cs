@@ -18,12 +18,21 @@ public class AmmoUI : MonoBehaviour
     }
 
     [System.Serializable]
+    public class AmmoSpriteSet
+    {
+        [Tooltip("Sprites en orden: 0/6, 1/6, 2/6, 3/6, 4/6, 5/6, 6/6")]
+        public List<Sprite> J1;   // Red
+        public List<Sprite> J2;    // Blue
+    }
+
+    [System.Serializable]
     public class PlayerUI
     {
-        public TextMeshProUGUI ammoText;
         public GameObject reloadPanel;
         public List<Image> sequenceIcons;  // 4 Image components para la secuencia
         public ButtonSpriteSet spriteSet;  // Sprites separados por dispositivo
+        public Image reloadImage;
+        public AmmoSpriteSet reloadSprite;
 
         public Color normalColor = Color.white;
         public Color activeColor = Color.yellow;
@@ -40,8 +49,19 @@ public class AmmoUI : MonoBehaviour
     public void UpdateAmmoDisplay(int current, int max, int playerIndex)
     {
         var ui = GetPlayerUI(playerIndex);
-        if (ui.ammoText != null)
-            ui.ammoText.text = $"{current}/{max}";
+
+        // Sprite del cargador
+        if (ui.reloadImage != null && ui.reloadSprite != null)
+        {
+            List<Sprite> sprites = playerIndex == 0 ? ui.reloadSprite.J1 : ui.reloadSprite.J2;
+
+            if (sprites != null && sprites.Count > 0)
+            {
+                int index = Mathf.Clamp(current, 0, sprites.Count - 1);
+                if (sprites[index] != null)
+                    ui.reloadImage.sprite = sprites[index];
+            }
+        }
     }
 
     // ── Mostrar secuencia de recarga ──────────────────────────────────────────

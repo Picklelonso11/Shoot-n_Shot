@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+
 
 public class SpawnPuerta : MonoBehaviour
 {
@@ -10,7 +12,10 @@ public class SpawnPuerta : MonoBehaviour
 
     public AudioSource sonidoPuerta;
 
+    public float velocidadRotacion = 2f; // Velocidad de apertura/cierre
+
     private Quaternion rotacionInicial; // Rotación original de la puerta
+    private Coroutine coroutineActual;
 
     void Awake()
     {
@@ -26,12 +31,11 @@ public class SpawnPuerta : MonoBehaviour
     {
         if (puerta == null) return;
 
-        // Decide el ángulo según si es izquierda o derecha
         float angulo = esIzquierda ? 100f : -100f;
+        Quaternion rotacionObjetivo = rotacionInicial * Quaternion.Euler(0f, angulo, 0f);
 
-        // Aplica la rotación
-        puerta.rotation = rotacionInicial;
-        puerta.Rotate(0f, angulo, 0f);
+        if (coroutineActual != null) StopCoroutine(coroutineActual);
+        coroutineActual = StartCoroutine(RotarPuerta(rotacionObjetivo));
     }
 
     // Se llama cuando la botella es destruida
@@ -41,7 +45,16 @@ public class SpawnPuerta : MonoBehaviour
 
         sonidoPuerta.Play();
 
-        // Vuelve exactamente a la rotación original
-        puerta.rotation = rotacionInicial;
+        if (coroutineActual != null) StopCoroutine(coroutineActual);
+        coroutineActual = StartCoroutine(RotarPuerta(rotacionInicial));
+    }
+    private IEnumerator RotarPuerta(Quaternion destino)
+    {
+        while (Quaternion.Angle(puerta.rotation, destino) > 0.1f)
+        {
+            puerta.rotation = Quaternion.Lerp(puerta.rotation, destino, Time.deltaTime * velocidadRotacion);
+            yield return null;
+        }
+        puerta.rotation = destino; // Asegura que llega exactamente al destino
     }
 }
