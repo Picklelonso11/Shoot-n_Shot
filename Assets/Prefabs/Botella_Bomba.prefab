@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6382136712073453576}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.041, y: 0.1, z: -0.016}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.011455324, y: -0.022, z: -0.003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6584248989124415488}
+  m_Father: {fileID: 8439855704504271537}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &1390405287062264380
 ParticleSystem:
@@ -41,7 +41,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6382136712073453576}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 15
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -50,7 +50,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -995,8 +995,8 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.12276459
-          value: 1
+          time: 0.11399078
+          value: 0.9846153
           inSlope: 0.107419014
           outSlope: 0.107419014
           tangentMode: 0
@@ -1004,8 +1004,8 @@ ParticleSystem:
           inWeight: 0.58334166
           outWeight: 0.16326295
         - serializedVersion: 3
-          time: 0.30691528
-          value: 0
+          time: 0.21481323
+          value: 0.015380859
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -4890,17 +4890,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ca3116ea0d13234c8bf524614e3d0f3, type: 2}
+    - target: {fileID: -7493596028755563170, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0294
+      objectReference: {fileID: 0}
     - target: {fileID: -7493596028755563170, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1614
+      value: 0.1826
       objectReference: {fileID: 0}
     - target: {fileID: -7493596028755563170, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.0133
       objectReference: {fileID: 0}
+    - target: {fileID: -6199997757813869222, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0272
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0189
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4683669308469848369, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4917,7 +4933,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+    - targetCorrespondingSourceObject: {fileID: -6199997757813869222, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5079558168153019642}
     m_AddedComponents:
@@ -5022,8 +5038,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 8
   m_CollisionDetection: 0
---- !u!4 &6584248989124415488 stripped
+--- !u!4 &8439855704504271537 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+  m_CorrespondingSourceObject: {fileID: -6199997757813869222, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
   m_PrefabInstance: {fileID: 6689335213559986155}
   m_PrefabAsset: {fileID: 0}
