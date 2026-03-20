@@ -79,5 +79,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6080291515093247916, guid: a06378bf511000849afc3ef2b0deb6ad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2345694530862018636}
   m_SourcePrefab: {fileID: 100100000, guid: a06378bf511000849afc3ef2b0deb6ad, type: 3}
+--- !u!1 &6815304532940190476 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6080291515093247916, guid: a06378bf511000849afc3ef2b0deb6ad, type: 3}
+  m_PrefabInstance: {fileID: 789638147284014240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2345694530862018636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815304532940190476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d0a40b1563eed44ac12ed5eb505bf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxWobble: 0.03
+  WobbleSpeed: 1
+  Recovery: 1

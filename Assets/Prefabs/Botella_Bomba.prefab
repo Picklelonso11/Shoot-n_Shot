@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5079558168153019642}
   - component: {fileID: 1390405287062264380}
   - component: {fileID: 6547072205111940830}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 6382136712073453576}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.011455324, y: -0.022, z: -0.003}
+  m_LocalPosition: {x: 0.024, y: -0.05, z: -0.003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4891,9 +4891,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 8ca3116ea0d13234c8bf524614e3d0f3, type: 2}
+      objectReference: {fileID: 2100000, guid: 329fbb70ef7877343a6703af3b7ec99c, type: 2}
     - target: {fileID: -7493596028755563170, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0294
@@ -4927,8 +4931,24 @@ PrefabInstance:
       value: Botella_Bomba
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       propertyPath: m_TagString
       value: Botella
+      objectReference: {fileID: 0}
+    - target: {fileID: 2813386014818480567, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f65d72e1a4043844b8d17a30f05246ae, type: 2}
+    - target: {fileID: 4837103688079324076, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080291515093247916, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4949,7 +4969,30 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2997747026743809676}
+    - targetCorrespondingSourceObject: {fileID: 6080291515093247916, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2043668719434981723}
   m_SourcePrefab: {fileID: 100100000, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+--- !u!1 &627339572362432583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6080291515093247916, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
+  m_PrefabInstance: {fileID: 6689335213559986155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2043668719434981723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627339572362432583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d0a40b1563eed44ac12ed5eb505bf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxWobble: 0.005
+  WobbleSpeed: 1.5
+  Recovery: 3
 --- !u!1 &5770275774041688762 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 12c72069c711b9d488dd42eb01a6c691, type: 3}
@@ -4975,7 +5018,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.13, y: 0.25, z: 0.12}
-  m_Center: {x: 0, y: 0.06, z: 0}
+  m_Center: {x: 0, y: 0.02, z: 0}
 --- !u!114 &5402669165118472684
 MonoBehaviour:
   m_ObjectHideFlags: 0
