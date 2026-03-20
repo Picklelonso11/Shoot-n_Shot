@@ -42,10 +42,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _CristalPower: 2
+    - _EdgePower: 15.9
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _light: 0
-    m_Colors: []
+    - _light: 1
+    - _power: 3
+    m_Colors:
+    - _Color: {r: 1, g: 0, b: 0, a: 0}
+    - _CristalColor: {r: 0.097469546, g: 0.6320754, b: 0, a: 0}
+    - _EdgeColor: {r: 0, g: 0.37385654, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &6387622890125661272

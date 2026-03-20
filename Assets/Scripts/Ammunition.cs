@@ -31,13 +31,13 @@ public class Ammunition : MonoBehaviour
     public AmmoUI ammoUI; // Asigna tu script de UI aquí
 
     // Botones según dispositivo
-    private string[] keyboardLabels = { "1", "2", "3", "4" };
-    private string[] numpadLabels = { "Num1", "Num2", "Num3", "Num4" };
+    private string[] keyboardLabels = { "W", "D", "S", "A" };
+    private string[] numpadLabels = { "↑", "→", "↓", "←" };
     private string[] gamepadLabels = { "X", "○", "△", "□" };
 
     // ─── Teclas reales ───────────────────────────────────────────────────────
-    private Key[] keyboardKeys = { Key.Digit1, Key.Digit2, Key.Digit3, Key.Digit4 };
-    private Key[] numpadKeys = { Key.Numpad1, Key.Numpad2, Key.Numpad3, Key.Numpad4 };
+    private Key[] keyboardKeys = { Key.W, Key.D, Key.S, Key.A };
+    private Key[] numpadKeys = { Key.UpArrow, Key.RightArrow, Key.DownArrow, Key.LeftArrow };
 
     // Botones de gamepad (requiere que el Gamepad esté asignado al player)
     private GamepadButton[] gamepadButtons =
@@ -82,7 +82,7 @@ public class Ammunition : MonoBehaviour
             currentAmmo++;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
             reloadTimer = reloadInterval;
-            UpdateUI();
+            UpdateUI(isReload: true);
         }
     }
 
@@ -98,7 +98,7 @@ public class Ammunition : MonoBehaviour
 
         currentAmmo--;
         reloadTimer = reloadInterval; // Resetear timer al disparar
-        UpdateUI();
+        UpdateUI(isReload: false);
 
         if (currentAmmo <= 0)
             StartManualReload();
@@ -204,9 +204,9 @@ public class Ammunition : MonoBehaviour
         return result;
     }
 
-    void UpdateUI()
+    void UpdateUI(bool isReload = false)
     {
-        ammoUI?.UpdateAmmoDisplay(currentAmmo, maxAmmo, playerIndex);
+        ammoUI?.UpdateAmmoDisplay(currentAmmo, maxAmmo, playerIndex, isReload);
     }
 
     // Propiedades públicas para UI/otros scripts

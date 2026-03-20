@@ -17,6 +17,7 @@ public class Disparo : MonoBehaviour
     public RawImage chispas;
     public Camera camara;
     public GameObject [] balazosPrefabs;
+    public GunFollow gunFollow;
 
     [Header("Decals")]
     public int maxDecals = 10; // Límite de decals en escena
@@ -108,6 +109,7 @@ public class Disparo : MonoBehaviour
         // Solo disparar bala si hay input Y hay balas disponibles
         if (!disparo || !ammunition.TryShoot()) return;
 
+        gunFollow?.Retroceso();
         haDisparado?.Invoke();
         AspectoMirilla();
 
