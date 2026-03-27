@@ -29,9 +29,10 @@ Material:
     - _Liquid_Amount: 0.552
     - _WobbleX: 0.04
     - _WobbleZ: 0.04
+    - _light_power: 5
     m_Colors:
     - _Side_Color: {r: 0.50980395, g: 0, b: 0.04671649, a: 0}
-    - _Top_Color: {r: 0, g: 0.14150941, b: 0.0017751161, a: 1}
+    - _Top_Color: {r: 0.00030589104, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1091555132663084809

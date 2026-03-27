@@ -204,6 +204,16 @@ public class Ammunition : MonoBehaviour
         return result;
     }
 
+    public void VaciarMunicion()
+    {
+        currentAmmo = 0;
+        reloadTimer = reloadInterval;
+        UpdateUI(isReload: false);
+
+        if (!isManualReloading)
+            StartManualReload();
+    }
+
     void UpdateUI(bool isReload = false)
     {
         ammoUI?.UpdateAmmoDisplay(currentAmmo, maxAmmo, playerIndex, isReload);

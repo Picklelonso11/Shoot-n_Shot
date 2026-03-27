@@ -1,16 +1,11 @@
-using Unity.Jobs;
+﻿using Unity.Jobs;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
 
 public class MoverChupito : MonoBehaviour
 {
-    // Tipo de grupo de objetos
-    public enum TipoObjeto
-    {
-        TipoJ1,
-        TipoJ2
-    }
+    public enum TipoObjeto { TipoJ1, TipoJ2 }
 
     [System.Serializable]
     public class Item
@@ -24,7 +19,6 @@ public class MoverChupito : MonoBehaviour
     int numeroChupitosJ1 = 0;
     int numeroChupitosJ2 = 0;
 
-    // Dos listas, una por cada tipo de objetos
     public Item[] tipoJ1;
     public Item[] tipoJ2;
 
@@ -35,7 +29,6 @@ public class MoverChupito : MonoBehaviour
 
     private Coroutine movimientoActual;
 
-    // Referencia a las mirillas de los jugadores
     public MirillaMovement mirillaPlayer1;
     public MirillaMovement mirillaPlayer2;
 
@@ -44,79 +37,109 @@ public class MoverChupito : MonoBehaviour
         GuardarPosiciones(tipoJ1);
         GuardarPosiciones(tipoJ2);
     }
-    // Inicia el movimiento de un tipo espec�fico
+
+    // ── Añadir chupito ────────────────────────────────────────────────────────
     public void MoverSiguiente(TipoObjeto tipo)
     {
-        if (movimientoActual != null)
-        {
-            return; // ya hay un objeto movi�ndose
-        }
+        if (movimientoActual != null) return;
 
         Item[] lista = tipo == TipoObjeto.TipoJ1 ? tipoJ1 : tipoJ2;
 
         if (tipo == TipoObjeto.TipoJ1 && numeroChupitosJ1 < 5)
         {
-            numeroChupitosJ1 += 1;
+            numeroChupitosJ1++;
             mirillaPlayer1.Borrachera(numeroChupitosJ1);
         }
         else if (tipo == TipoObjeto.TipoJ2 && numeroChupitosJ2 < 5)
         {
-            numeroChupitosJ2 += 1;
+            numeroChupitosJ2++;
             mirillaPlayer2.Borrachera(numeroChupitosJ2);
         }
 
-        // Busca el primer objeto que a�n no se haya movido
         foreach (Item item in lista)
         {
             if (!item.completado)
             {
-                movimientoActual = StartCoroutine(MoverObjeto(item));
+                movimientoActual = StartCoroutine(MoverObjeto(item, haciaPosicion: true));
                 break;
             }
         }
     }
-    private IEnumerator MoverObjeto(Item item)
+
+    // ── Restar chupito ────────────────────────────────────────────────────────
+    public void RestarChupito(TipoObjeto tipo)
     {
-        while (Vector3.Distance(item.objeto.position, item.destino.position) > 0.05f)
+        if (movimientoActual != null) return;
+
+        Item[] lista = tipo == TipoObjeto.TipoJ1 ? tipoJ1 : tipoJ2;
+
+        if (tipo == TipoObjeto.TipoJ1 && numeroChupitosJ1 > 0)
         {
-            Vector3 dir = (item.destino.position - item.objeto.position).normalized;
+            // Encontrar el último chupito completado y devolverlo
+            for (int i = lista.Length - 1; i >= 0; i--)
+            {
+                if (lista[i].completado)
+                {
+                    numeroChupitosJ1--;
+                    mirillaPlayer1.Borrachera(numeroChupitosJ1);
+                    movimientoActual = StartCoroutine(MoverObjeto(lista[i], haciaPosicion: false));
+                    break;
+                }
+            }
+        }
+        else if (tipo == TipoObjeto.TipoJ2 && numeroChupitosJ2 > 0)
+        {
+            for (int i = lista.Length - 1; i >= 0; i--)
+            {
+                if (lista[i].completado)
+                {
+                    numeroChupitosJ2--;
+                    mirillaPlayer2.Borrachera(numeroChupitosJ2);
+                    movimientoActual = StartCoroutine(MoverObjeto(lista[i], haciaPosicion: false));
+                    break;
+                }
+            }
+        }
+    }
+
+    // ── Mover objeto (ida o vuelta) ───────────────────────────────────────────
+    private IEnumerator MoverObjeto(Item item, bool haciaPosicion)
+    {
+        Vector3 destino = haciaPosicion ? item.destino.position : item.posicionInicial;
+
+        while (Vector3.Distance(item.objeto.position, destino) > 0.05f)
+        {
+            Vector3 dir = (destino - item.objeto.position).normalized;
             item.objeto.position += dir * velocidad * Time.deltaTime;
             yield return null;
         }
 
-        // Colocar exactamente en destino y marcar completado
-        item.objeto.position = item.destino.position;
-        item.completado = true;
-
+        item.objeto.position = destino;
+        item.completado = haciaPosicion; // true si fue hacia destino, false si volvió
         movimientoActual = null;
 
-        // Reproducir el primer sonido
         slideChupito.Play();
-
-        // Esperar a que termine el primero
-        while (slideChupito.isPlaying)
-        {
-            yield return null;
-        }
-
-        // Reproducir el segundo sonido
+        while (slideChupito.isPlaying) yield return null;
         chupitoConseguido.Play();
     }
+
     void GuardarPosiciones(Item[] lista)
     {
         foreach (Item item in lista)
-        {
             if (item.objeto != null)
-            {
                 item.posicionInicial = item.objeto.position;
-            }
-        }
     }
+
     public void ResetearChupitos()
     {
         ResetearLista(tipoJ1);
         ResetearLista(tipoJ2);
+        mirillaPlayer1.Borrachera(0);
+        mirillaPlayer2.Borrachera(0);
+        numeroChupitosJ1 = 0;
+        numeroChupitosJ2 = 0;
     }
+
     void ResetearLista(Item[] lista)
     {
         foreach (Item item in lista)
@@ -127,9 +150,5 @@ public class MoverChupito : MonoBehaviour
                 item.completado = false;
             }
         }
-        mirillaPlayer1.Borrachera(0);
-        mirillaPlayer2.Borrachera(0);
-        numeroChupitosJ1 = 0;
-        numeroChupitosJ2 = 0;
     }
 }

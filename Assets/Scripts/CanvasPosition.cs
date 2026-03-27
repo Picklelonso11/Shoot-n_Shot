@@ -1,95 +1,77 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using System.Collections;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 public class CanvasPosition : MonoBehaviour
 {
     public GameObject textoPuntuacionBotella;
     public RawImage penalizacion;
 
-    public void MostrarTextoPuntuacion(Vector3 position, int puntuacion)
+    public void MostrarTextoPuntuacion(Vector3 position, int puntos, bool esJ1, EfectoBotella efecto)
     {
-        // Convertir posici�n 3D a pantalla
-        Vector2 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-        if (puntuacion == -50)
-        {
-            RawImage penalImage = Instantiate(penalizacion, Camera.main.WorldToScreenPoint(position), Quaternion.identity, transform);
-            RectTransform penalRt = penalImage.GetComponent<RectTransform>();
-            Destroy(penalImage, 1f);
-        }
-        // Instanciar texto en el Canvas
-        GameObject textoObj = Instantiate(textoPuntuacionBotella, Camera.main.WorldToScreenPoint(position), Quaternion.identity, transform);
+        // Instanciar texto
+        GameObject textoObj = Instantiate(
+            textoPuntuacionBotella,
+            Camera.main.WorldToScreenPoint(position),
+            Quaternion.identity,
+            transform);
 
-        // Posicionar sobre la botella
         RectTransform rt = textoObj.GetComponent<RectTransform>();
-
-        // Escala inicial para animaci�n
         rt.localScale = Vector3.one * 0.1f;
 
-
-        // Obtener TMP
         TextMeshProUGUI tmp = textoObj.GetComponent<TextMeshProUGUI>();
-        if (puntuacion < 0)
+        tmp.fontSize = 170;
+
+        // ── Texto ────────────────────────────────────────────────────────────
+        switch (efecto)
         {
-            tmp.text = "" + puntuacion;
+            case EfectoBotella.BorrachoRival:
+            case EfectoBotella.BorrachoPropio:
+                tmp.text = "¡BORRACHO!";
+                break;
+            case EfectoBotella.RestarChupito:
+            case EfectoBotella.RestarChupitoProp:
+                tmp.text = "-1 CHUPITO";
+                break;
+            case EfectoBotella.VaciarMuniRival:
+            case EfectoBotella.VaciarMuniPropia:
+                tmp.text = "¡SIN BALAS!";
+                break;
+            default:
+                tmp.text = puntos >= 0 ? "+" + puntos : "" + puntos;
+                break;
         }
-        else
-        {
-            tmp.text = "+" + puntuacion;
-        }
 
-        // COLOR / TAMA�O / GRADIENTE
-        switch (puntuacion)
-            {
-                case -50:
-                    tmp.color = new Color(0.3f, 0f, 0.5f);
-                    tmp.fontSize = 150;
-                    break;
+        // ── Color: rojo si suma J1, azul si suma J2 ──────────────────────────
+        // Para efectos que afectan al rival, el "beneficiado" es quien dispara
+        // Para efectos que afectan al propio, el color es del rival (le perjudica)
+        bool beneficiadoEsJ1 = efecto == EfectoBotella.BorrachoPropio ||
+                               efecto == EfectoBotella.RestarChupitoProp ||
+                               efecto == EfectoBotella.VaciarMuniPropia
+                               ? !esJ1   // le perjudica al que dispara → color del rival
+                               : esJ1;   // suma/perjudica al rival → color del que dispara
 
-                case 10:
-                    tmp.color = Color.green;
-                    tmp.fontSize = 150;
-                    break;
+        tmp.color = beneficiadoEsJ1
+            ? new Color(0.9f, 0.15f, 0.15f)   // Rojo J1
+            : new Color(0.15f, 0.4f, 0.9f);   // Azul J2
 
-                case 25:
-                    tmp.color = new Color(0.2f, 0.8f, 1f);
-                    tmp.fontSize = 150;
-                    break;
-
-                case 50:
-                    tmp.color = Color.magenta;
-                    tmp.fontSize = 150;
-                    break;
-
-                case 75:
-                    tmp.fontSize = 170;
-                    tmp.color = new Color(1f, 0.6f, 0.2f);
-                    break;
-            }
-
-        // Iniciar animaci�n de escala 0.1 a 1 en 0.5s
         StartCoroutine(AnimarEscala(rt));
-
-        // Destruir despu�s
         Destroy(textoObj, 1f);
     }
+
     private IEnumerator AnimarEscala(RectTransform rt)
     {
         Vector3 inicio = Vector3.one * 0.1f;
         Vector3 fin = Vector3.one;
         float duracion = 0.2f;
         float t = 0;
-
         while (t < 1f)
         {
             t += Time.deltaTime / duracion;
             rt.localScale = Vector3.Lerp(inicio, fin, Mathf.SmoothStep(0, 1, t));
             yield return null;
         }
-
         rt.localScale = fin;
     }
 }

@@ -65,14 +65,23 @@ public class GunFollow : MonoBehaviour
     public void Retroceso()
     {
         if (enRetroceso) return;
-        enRetroceso = true;
 
-        Quaternion rotActual = transform.localRotation;
-        Quaternion rotRetroceso = rotActual * Quaternion.Euler(-retrocesoRotX, 0f, 0f);
+        // Bloquear Update antes de cualquier otra cosa
+        enRetroceso = true;
+        transform.DOKill();
+
+        // Calcular la rotación objetivo de seguimiento en este momento
+        Vector2 miriPos = mirilla.anchoredPosition;
+        float rotY = Mathf.Clamp(miriPos.x * influencia, -maxRotacion, maxRotacion);
+        float rotX = Mathf.Clamp(-miriPos.y * influencia, -maxRotacion, maxRotacion);
+        Quaternion rotObjetivo = rotacionBase * Quaternion.Euler(rotX, rotY, 0f);
+
+        // Retroceso desde la rotación objetivo, no desde la interpolada
+        Quaternion rotRetroceso = rotObjetivo * Quaternion.Euler(-retrocesoRotX, 0f, 0f);
 
         DOTween.Sequence()
             .Append(transform.DOLocalRotateQuaternion(rotRetroceso, duracionRetroceso).SetEase(Ease.OutQuad))
-            .Append(transform.DOLocalRotateQuaternion(rotActual, duracionRetorno).SetEase(Ease.InOutQuad))
+            .Append(transform.DOLocalRotateQuaternion(rotObjetivo, duracionRetorno).SetEase(Ease.InOutQuad))
             .OnComplete(() => enRetroceso = false);
     }
 }

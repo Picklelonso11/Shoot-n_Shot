@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu_inicio.unity
+    guid: 428d1b397ef11554285dc96a81bcc1ac
+  - enabled: 1
+    path: Assets/Scenes/Partida.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c2a848f4253f4b1409701d58e8d304bc, type: 3}
   m_UseUCBPForAssetBundles: 0

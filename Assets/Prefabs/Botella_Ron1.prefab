@@ -48,14 +48,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4da99267bfa5cf5448f5a6e3ff045a62, type: 2}
+    - target: {fileID: -1063200799061114560, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
       propertyPath: m_Name
       value: Botella_Ron1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
       propertyPath: m_TagString
       value: Botella
       objectReference: {fileID: 0}
+    - target: {fileID: 2477115293332076865, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 14d370f159045b643b80196e155b50cf, type: 2}
+    - target: {fileID: 4598845424435156689, guid: f1e218d138e1a894da38e3e047c5b351, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ac60834d3862bd4da422bc0375c2ab1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -91,8 +111,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabFracturado: {fileID: 9214212505468051331, guid: d27baafb3ce5e1e4eb84dc9ad5cdf255, type: 3}
-  puntos: 25
+  puntos: 100
+  efecto: 0
   spawnPuerta: {fileID: 0}
+  mirillaJ1: {fileID: 0}
+  mirillaJ2: {fileID: 0}
+  ammoJ1: {fileID: 0}
+  ammoJ2: {fileID: 0}
+  moverChupito: {fileID: 0}
 --- !u!114 &-191615007430684522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +137,7 @@ MonoBehaviour:
   fuerzaVertical: 3
   velocidadRotacion: 360
   gravedadSubiendo: 1
-  gravedadBajando: 10
+  gravedadBajando: 7
   multiplicadorTiempo: 1.2
 --- !u!54 &1943906593702546058
 Rigidbody:
@@ -153,11 +179,11 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.18, y: 0.29, z: 0.13}
-  m_Center: {x: 0, y: 0.01, z: 1.4551915e-11}
+  m_Size: {x: 0.22, y: 0.35, z: 0.22}
+  m_Center: {x: 0, y: 0.03, z: 1.4551915e-11}

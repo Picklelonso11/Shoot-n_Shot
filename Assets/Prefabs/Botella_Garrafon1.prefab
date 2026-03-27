@@ -53,9 +53,21 @@ PrefabInstance:
       value: Botella_Garrafon1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8f7138d9f62574d4aa1b2971b4fbce08, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8f7138d9f62574d4aa1b2971b4fbce08, type: 3}
       propertyPath: m_TagString
       value: Botella
       objectReference: {fileID: 0}
+    - target: {fileID: 2731659680967170808, guid: 8f7138d9f62574d4aa1b2971b4fbce08, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4057471307917626025, guid: 8f7138d9f62574d4aa1b2971b4fbce08, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 14d370f159045b643b80196e155b50cf, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -111,8 +123,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabFracturado: {fileID: 7580905886498047465, guid: 7e0183b6b562c3d41ace1d85b52b017d, type: 3}
-  puntos: 10
+  puntos: 50
+  efecto: 0
   spawnPuerta: {fileID: 0}
+  mirillaJ1: {fileID: 0}
+  mirillaJ2: {fileID: 0}
+  ammoJ1: {fileID: 0}
+  ammoJ2: {fileID: 0}
+  moverChupito: {fileID: 0}
 --- !u!54 &-867515706030656973
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -159,5 +177,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0018, y: 0.0024, z: 0.0018}
-  m_Center: {x: -0.0000052763207, y: 0.00034, z: 2.910383e-11}
+  m_Size: {x: 0.21, y: 0.3, z: 0.21}
+  m_Center: {x: -0.0000052763207, y: 0.03, z: 2.910383e-11}

@@ -44,6 +44,7 @@ Material:
     - _WobbleX: -0.02
     - _WobbleZ: 0.18
     - _Wooble_Z: 0.5
+    - _light_power: 0
     m_Colors:
     - _Side_Color: {r: 0.15238094, g: 1, b: 0, a: 0}
     - _Top_Color: {r: 0.08911362, g: 0.6415094, b: 0.003025995, a: 1}

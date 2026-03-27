@@ -48,10 +48,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8315084480114580859, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: -7928677643160691123, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: -4850891226674053469, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: -3762913026506168119, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: -2107426215466465439, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: -1226075855292842964, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: -635604247808323424, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: -550245426260835395, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
     - target: {fileID: 919132149155446097, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
       propertyPath: m_Name
       value: Botella_Whisky_Rota1
       objectReference: {fileID: 0}
+    - target: {fileID: 6413583171989402962, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
+    - target: {fileID: 6751990720895457540, guid: 5fe48664538ba654ab274fb553b8889d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19432d78cdb1ddb4f9464e020882dab7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
