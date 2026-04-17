@@ -82,6 +82,7 @@ public class MoverChupito : MonoBehaviour
                 {
                     numeroChupitosJ1--;
                     mirillaPlayer1.Borrachera(numeroChupitosJ1);
+                    ScoreManager.Instance.AddScore(player1: true, puntos: -150);
                     movimientoActual = StartCoroutine(MoverObjeto(lista[i], haciaPosicion: false));
                     break;
                 }
@@ -95,6 +96,7 @@ public class MoverChupito : MonoBehaviour
                 {
                     numeroChupitosJ2--;
                     mirillaPlayer2.Borrachera(numeroChupitosJ2);
+                    ScoreManager.Instance.AddScore(player1: false, puntos: -150);
                     movimientoActual = StartCoroutine(MoverObjeto(lista[i], haciaPosicion: false));
                     break;
                 }

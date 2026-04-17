@@ -136,7 +136,7 @@ public class AmmoUI : MonoBehaviour
     {
         return deviceType switch
         {
-            InputDeviceType.Keyboard => ui.spriteSet.keyboard,
+            InputDeviceType.Keyboard => ui.spriteSet.arrows,
             InputDeviceType.NumpadKeyboard => ui.spriteSet.arrows,
             InputDeviceType.Gamepad => ui.spriteSet.gamepad,
             _ => ui.spriteSet.keyboard
